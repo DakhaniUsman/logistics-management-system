@@ -1,0 +1,52 @@
+import { z } from "zod";
+
+export const rateSchema = z.object({
+  rateType: z.enum([
+    "Ocean Freight",
+    "Air Freight",
+    "Road Transport",
+    "Rail Transport",
+    "Customs Clearance",
+    "Warehouse Handling",
+    "Documentation",
+    "Insurance",
+    "Other Charges",
+  ]),
+  serviceType: z.string().min(2, "Service type is required"),
+  vendorId: z.string().min(1, "Vendor selection is required"),
+  vendorName: z.string().min(2, "Vendor name is required"),
+  carrierId: z.string().optional(),
+  carrierName: z.string().optional(),
+  origin: z.string().min(2, "Origin location is required"),
+  originCountry: z.string().min(2, "Origin country is required"),
+  destination: z.string().min(2, "Destination location is required"),
+  destinationCountry: z.string().min(2, "Destination country is required"),
+  transportMode: z.enum([
+    "Ocean Freight",
+    "Air Freight",
+    "Road Freight",
+    "Rail Freight",
+    "Multimodal",
+  ]),
+  containerType: z.string().optional(),
+  containerSize: z.string().optional(),
+  rate: z.number().min(1, "Rate amount must be greater than 0"),
+  currency: z.string().min(3, "Currency code is required"),
+  unit: z.enum([
+    "Per Container",
+    "Per KG",
+    "Per CBM",
+    "Per Shipment",
+    "Per Trip",
+    "Per Vehicle",
+    "Per Document",
+    "Flat Rate",
+  ]),
+  minimumCharge: z.number().optional(),
+  validFrom: z.string().min(1, "Valid From date is required"),
+  validUntil: z.string().min(1, "Valid Until date is required"),
+  terms: z.string().optional(),
+  notes: z.string().optional(),
+});
+
+export type RateFormValues = z.infer<typeof rateSchema>;
