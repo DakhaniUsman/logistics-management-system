@@ -13,6 +13,8 @@ import { Select } from "@/components/ui/select";
 import { Timeline } from "@/components/ui/timeline";
 import { JobStatus, JobPriority } from "@/types/job";
 import { useJobStore } from "@/store/use-job-store";
+import { useBookingStore } from "@/store/use-booking-store";
+import { MOCK_SHIPMENTS } from "@/data/mock/shipment-data";
 import { formatCurrency } from "@/lib/utils";
 import {
   Briefcase,
@@ -50,6 +52,14 @@ export default function JobDetailPage() {
   const { jobs, updateJobStatus, assignJob, closeJob, addJobTask, toggleTaskStatus, addJobActivity } = useJobStore();
 
   const job = jobs.find((j) => j.id.toLowerCase() === jobId.toLowerCase() || (j.jobNumber || j.jobNo || "").toLowerCase() === jobId.toLowerCase()) || jobs[0];
+
+  const { bookings } = useBookingStore();
+  const jobBookings = bookings.filter(
+    (b) => b.jobId.toLowerCase() === job.id.toLowerCase() || b.jobId.toLowerCase() === (job.jobNumber || "").toLowerCase()
+  );
+  const matchingShipment = MOCK_SHIPMENTS.find(
+    (s) => s.jobId.toLowerCase() === job.id.toLowerCase() || s.jobNumber?.toLowerCase() === job.jobNumber?.toLowerCase()
+  );
 
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -363,30 +373,86 @@ export default function JobDetailPage() {
           {/* TAB 3: OPERATIONS & FUTURE STRUCTURAL PLACEHOLDERS */}
           {activeTab === "operations" && (
             <div className="space-y-6 text-xs">
-              <div className="p-4 rounded-lg bg-slate-900/60 border border-slate-800 space-y-3">
-                <h4 className="font-bold text-sm text-slate-100">Operational Execution Command Center</h4>
-                <p className="text-slate-400">Origin: {job.origin} | Destination: {job.destination} | Mode: {job.transportMode}</p>
+              <div className="p-4 rounded-lg bg-slate-900/60 border border-slate-800 flex items-center justify-between">
+                <div>
+                  <h4 className="font-bold text-sm text-slate-100">Operational Execution Command Center</h4>
+                  <p className="text-slate-400 mt-1">Origin: {job.origin} | Destination: {job.destination} | Mode: {job.transportMode}</p>
+                </div>
+                {matchingShipment && (
+                  <Link href={`/operations/bookings/create?shipmentId=${matchingShipment.id}`}>
+                    <Button variant="primary" size="xs" icon={Plus}>
+                      Book Carrier Space
+                    </Button>
+                  </Link>
+                )}
               </div>
 
-              {/* Structured Future Operational Module Placeholders */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card className="p-4 border-dashed border-slate-700 bg-slate-900/30 space-y-2">
+              {/* Real Carrier Bookings section */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                  <h4 className="font-bold text-sm text-slate-100 flex items-center gap-2">
+                    <Layers className="w-4 h-4 text-sky-400" />
+                    Active Carrier Bookings ({jobBookings.length})
+                  </h4>
+                  <Link href="/operations/bookings">
+                    <span className="text-[10px] text-sky-500 hover:underline">View All Bookings</span>
+                  </Link>
+                </div>
+
+                {jobBookings.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {jobBookings.map((b) => (
+                      <Card key={b.id} className="p-4 border border-slate-800 bg-slate-900/40 hover:border-slate-700 transition-all flex flex-col justify-between">
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="font-bold text-sky-400 font-mono">{b.bookingNumber}</span>
+                            <StatusBadge status={b.status} />
+                          </div>
+                          <div className="text-[11px] text-slate-300 space-y-1">
+                            <p><strong>Carrier:</strong> {b.carrierName}</p>
+                            <p><strong>Ref #:</strong> {b.bookingReference || <span className="text-amber-500 italic">Pending Release</span>}</p>
+                            <p><strong>ETD/ETA:</strong> <span className="font-mono text-slate-400">{b.etd} / {b.eta}</span></p>
+                          </div>
+                        </div>
+                        <div className="mt-4 pt-2 border-t border-slate-800 flex justify-end">
+                          <Link href={`/operations/bookings/${b.id}`}>
+                            <Button variant="ghost" size="xs" icon={ExternalLink}>
+                              Inspect Leg Details
+                            </Button>
+                          </Link>
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="p-6 text-center border border-dashed border-slate-800 bg-slate-950/20 rounded-lg text-slate-400 italic">
+                    No active carrier space reservations allocated for this job yet. 
+                    {matchingShipment ? (
+                      <div className="mt-3">
+                        <Link href={`/operations/bookings/create?shipmentId=${matchingShipment.id}`}>
+                          <Button variant="outline" size="xs" icon={Plus}>
+                            Initialize Booking Request
+                          </Button>
+                        </Link>
+                      </div>
+                    ) : (
+                      <p className="text-[10px] text-slate-500 mt-1">No parent shipment found to initialize booking.</p>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Other Future Phase Placeholders */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-slate-800/60">
+                <Card className="p-4 border border-slate-800 bg-slate-950/20 space-y-2 opacity-60">
                   <div className="flex items-center gap-2 text-sky-400 font-bold">
                     <Ship className="w-4 h-4" />
-                    <span>Shipment Management (Phase 7)</span>
+                    <span>Shipment Management (Phase 7 - Core Linkage)</span>
                   </div>
-                  <p className="text-slate-400 text-[11px]">Shipment records & BL allocation will attach here using <code>{job.id}</code>.</p>
+                  <p className="text-slate-400 text-[11px]">Primary shipment records linked: <code>{matchingShipment?.id || "None found"}</code>.</p>
                 </Card>
 
-                <Card className="p-4 border-dashed border-slate-700 bg-slate-900/30 space-y-2">
-                  <div className="flex items-center gap-2 text-cyan-400 font-bold">
-                    <Layers className="w-4 h-4" />
-                    <span>Carrier Bookings (Phase 8)</span>
-                  </div>
-                  <p className="text-slate-400 text-[11px]">Shipping line & airline space confirmations will attach here using <code>{job.id}</code>.</p>
-                </Card>
-
-                <Card className="p-4 border-dashed border-slate-700 bg-slate-900/30 space-y-2">
+                <Card className="p-4 border-dashed border-slate-800 bg-slate-950/20 space-y-2 opacity-60">
                   <div className="flex items-center gap-2 text-amber-400 font-bold">
                     <Truck className="w-4 h-4" />
                     <span>Transport Execution (Phase 10)</span>
