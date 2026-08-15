@@ -162,7 +162,7 @@ export function Topbar() {
             className="flex items-center gap-2.5 pl-2 pr-2 sm:pr-3 py-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
           >
             <div className="w-8 h-8 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold text-xs shadow-sm shrink-0">
-              SB
+              {user.name.split(" ")[0].charAt(0) + user.name.split(" ")[1].charAt(0)}
             </div>
             <div className="hidden sm:block text-left">
               <span className="block text-xs font-bold text-slate-900 dark:text-slate-100">

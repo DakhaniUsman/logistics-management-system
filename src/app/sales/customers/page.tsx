@@ -49,7 +49,7 @@ export default function CustomersPage() {
     industry: "Consumer Electronics",
     status: "Active" as const,
     category: "Standard" as const,
-    accountOwner: "Shahbaj Borkar",
+    accountOwner: "Dakhani Usman",
     primaryContactName: "Rahul Sharma",
     primaryContactEmail: "rahul@company.com",
     primaryContactPhone: "+91 98200 11223",
@@ -81,8 +81,8 @@ export default function CustomersPage() {
             cus.category === "VIP Enterprise"
               ? "success"
               : cus.category === "Key Account"
-              ? "info"
-              : "default"
+                ? "info"
+                : "default"
           }
         >
           {cus.category}

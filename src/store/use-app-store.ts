@@ -110,7 +110,7 @@ export const useAppStore = create<AppStoreState>((set) => ({
   setCurrentOrg: (org) => set({ currentOrg: org }),
 
   user: {
-    name: "Shahbaj Borkar",
+    name: "Dakhani Usman",
     email: "shahbaj@eclipselogistics.com",
     role: "Operations Manager",
     department: "Global Freight Forwarding",

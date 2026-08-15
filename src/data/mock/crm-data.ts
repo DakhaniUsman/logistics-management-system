@@ -28,7 +28,7 @@ export const MOCK_COMPANIES: Company[] = [
     primaryContactId: "CONT-001",
     primaryContactName: "Rahul Sharma",
     status: "Customer",
-    owner: "Shahbaj Borkar",
+    owner: "Dakhani Usman",
     createdAt: "2026-01-15",
   },
   {
@@ -46,7 +46,7 @@ export const MOCK_COMPANIES: Company[] = [
     primaryContactId: "CONT-002",
     primaryContactName: "Dr. Ananya Roy",
     status: "Customer",
-    owner: "Shahbaj Borkar",
+    owner: "Dakhani Usman",
     createdAt: "2026-01-20",
   },
   {
@@ -136,7 +136,7 @@ export const MOCK_COMPANIES: Company[] = [
     primaryContactId: "CONT-007",
     primaryContactName: "Karan Desai",
     status: "Active Prospect",
-    owner: "Shahbaj Borkar",
+    owner: "Dakhani Usman",
     createdAt: "2026-02-15",
   },
   {
@@ -190,7 +190,7 @@ export const MOCK_COMPANIES: Company[] = [
     primaryContactId: "CONT-010",
     primaryContactName: "Neha Kulkarni",
     status: "Customer",
-    owner: "Shahbaj Borkar",
+    owner: "Dakhani Usman",
     createdAt: "2026-02-22",
   },
 ];
@@ -203,7 +203,7 @@ for (let i = 11; i <= 40; i++) {
     "Footwear Export", "Solar PV Modules"
   ];
   const cities = ["Pune", "Hyderabad", "Surat", "Jaipur", "Ludhiana", "Noida", "Coimbatore", "Visakhapatnam"];
-  const owners = ["Shahbaj Borkar", "Priya Nair", "Rohan Varma"];
+  const owners = ["Dakhani Usman", "Priya Nair", "Rohan Varma"];
   const ind = industries[i % industries.length];
   const city = cities[i % cities.length];
   const own = owners[i % owners.length];
@@ -363,7 +363,7 @@ export const MOCK_LEADS: Lead[] = [
     phone: "+91 265 233 4411",
     source: "Trade Show",
     status: "Qualified",
-    owner: "Shahbaj Borkar",
+    owner: "Dakhani Usman",
     industry: "Specialty Chemicals",
     location: "Vadodara, Gujarat",
     estimatedValue: 2800000, // ₹28 L
@@ -418,7 +418,7 @@ export const MOCK_LEADS: Lead[] = [
     phone: "+91 141 277 8899",
     source: "Email",
     status: "New",
-    owner: "Shahbaj Borkar",
+    owner: "Dakhani Usman",
     industry: "Furniture & Handicrafts",
     location: "Jaipur, Rajasthan",
     estimatedValue: 1200000,
@@ -433,7 +433,7 @@ export const MOCK_LEADS: Lead[] = [
 for (let i = 6; i <= 26; i++) {
   const sources: LeadSource[] = ["Website", "Referral", "Email", "Phone", "LinkedIn", "Advertisement", "Trade Show", "Partner"];
   const statuses: LeadStatus[] = ["New", "Contacted", "Qualified", "Proposal", "Won", "Lost", "Unqualified"];
-  const owners = ["Shahbaj Borkar", "Priya Nair", "Rohan Varma"];
+  const owners = ["Dakhani Usman", "Priya Nair", "Rohan Varma"];
   const company = MOCK_COMPANIES[(i + 5) % MOCK_COMPANIES.length];
 
   MOCK_LEADS.push({
@@ -468,7 +468,7 @@ export const MOCK_CUSTOMERS: Customer[] = [
     industry: "Consumer Electronics",
     status: "Active",
     category: "VIP Enterprise",
-    accountOwner: "Shahbaj Borkar",
+    accountOwner: "Dakhani Usman",
     primaryContactName: "Rahul Sharma",
     primaryContactEmail: "rahul.sharma@abcelectronics.com",
     primaryContactPhone: "+91 98200 11223",
@@ -487,7 +487,7 @@ export const MOCK_CUSTOMERS: Customer[] = [
     industry: "Pharmaceuticals",
     status: "Active",
     category: "VIP Enterprise",
-    accountOwner: "Shahbaj Borkar",
+    accountOwner: "Dakhani Usman",
     primaryContactName: "Dr. Ananya Roy",
     primaryContactEmail: "ananya.roy@nexuspharma.com",
     primaryContactPhone: "+91 98111 33445",
@@ -561,7 +561,7 @@ export const MOCK_CUSTOMERS: Customer[] = [
 for (let i = 7; i <= 26; i++) {
   const company = MOCK_COMPANIES[(i - 1) % MOCK_COMPANIES.length];
   const categories: Customer["category"][] = ["VIP Enterprise", "Key Account", "Standard"];
-  const owners = ["Shahbaj Borkar", "Priya Nair", "Rohan Varma"];
+  const owners = ["Dakhani Usman", "Priya Nair", "Rohan Varma"];
 
   MOCK_CUSTOMERS.push({
     id: `CUS-2026-${i.toString().padStart(3, "0")}`,
@@ -596,7 +596,7 @@ export const MOCK_ACTIVITIES: Activity[] = [
     relatedEntity: "Customer",
     relatedEntityId: "CUS-2026-001",
     relatedEntityName: "ABC Electronics Pvt Ltd",
-    assignedTo: "Shahbaj Borkar",
+    assignedTo: "Dakhani Usman",
     dueDate: "2026-08-10",
     completedAt: "2026-08-10 15:30",
     status: "Completed",
@@ -610,7 +610,7 @@ export const MOCK_ACTIVITIES: Activity[] = [
     relatedEntity: "Customer",
     relatedEntityId: "CUS-2026-002",
     relatedEntityName: "Nexus Pharmaceuticals Ltd",
-    assignedTo: "Shahbaj Borkar",
+    assignedTo: "Dakhani Usman",
     dueDate: "2026-08-12",
     completedAt: "2026-08-12 11:00",
     status: "Completed",
@@ -637,7 +637,7 @@ export const MOCK_ACTIVITIES: Activity[] = [
     relatedEntity: "Lead",
     relatedEntityId: "LEAD-2026-002",
     relatedEntityName: "Vanguard Chemical Industries",
-    assignedTo: "Shahbaj Borkar",
+    assignedTo: "Dakhani Usman",
     dueDate: "2026-08-13",
     status: "In Progress",
     createdAt: "2026-08-11",
@@ -648,7 +648,7 @@ export const MOCK_ACTIVITIES: Activity[] = [
 for (let i = 5; i <= 100; i++) {
   const types: Activity["type"][] = ["Call", "Email", "Meeting", "Follow-up", "Note", "Task"];
   const statuses: Activity["status"][] = ["Upcoming", "In Progress", "Completed", "Overdue"];
-  const owners = ["Shahbaj Borkar", "Priya Nair", "Rohan Varma"];
+  const owners = ["Dakhani Usman", "Priya Nair", "Rohan Varma"];
   const lead = MOCK_LEADS[(i - 1) % MOCK_LEADS.length];
   const type = types[i % types.length];
 
@@ -676,7 +676,7 @@ export const MOCK_TASKS: Task[] = [
     id: "TASK-001",
     title: "Call Rahul Sharma tomorrow regarding Q3 container forecast",
     description: "Confirm 40HC container requirement for Mumbai to Dubai trade lane.",
-    assignee: "Shahbaj Borkar",
+    assignee: "Dakhani Usman",
     dueDate: "2026-08-14",
     priority: "High",
     status: "Pending",
@@ -702,7 +702,7 @@ export const MOCK_TASKS: Task[] = [
     id: "TASK-003",
     title: "Verify Hazmat MSDS docs for Vanguard Chemical",
     description: "Check Class 3 flammable liquid transportation approval certificates.",
-    assignee: "Shahbaj Borkar",
+    assignee: "Dakhani Usman",
     dueDate: "2026-08-15",
     priority: "Medium",
     status: "Pending",
@@ -715,7 +715,7 @@ export const MOCK_TASKS: Task[] = [
     id: "TASK-004",
     title: "Confirm air freight space allocation with Lufthansa Cargo",
     description: "Book 3.5 tons pharma air cargo space for Nexus Pharma BOM-FRA flight.",
-    assignee: "Shahbaj Borkar",
+    assignee: "Dakhani Usman",
     dueDate: "2026-08-11",
     priority: "High",
     status: "Completed",
@@ -730,7 +730,7 @@ export const MOCK_TASKS: Task[] = [
 for (let i = 5; i <= 50; i++) {
   const priorities: Task["priority"][] = ["Low", "Medium", "High", "Urgent"];
   const statuses: Task["status"][] = ["Pending", "In Progress", "Completed", "Overdue"];
-  const owners = ["Shahbaj Borkar", "Priya Nair", "Rohan Varma"];
+  const owners = ["Dakhani Usman", "Priya Nair", "Rohan Varma"];
   const lead = MOCK_LEADS[(i - 1) % MOCK_LEADS.length];
 
   MOCK_TASKS.push({

@@ -15,7 +15,7 @@ export const MOCK_ENQUIRIES: Enquiry[] = [
     source: "Existing Customer",
     status: "Rate Pending",
     priority: "High",
-    assignedTo: "Shahbaj Borkar",
+    assignedTo: "Dakhani Usman",
     origin: "Mumbai Port (JNPT)",
     originCountry: "India",
     destination: "Jebel Ali Port",
@@ -51,7 +51,7 @@ export const MOCK_ENQUIRIES: Enquiry[] = [
     source: "Email",
     status: "Ready for Quotation",
     priority: "Urgent",
-    assignedTo: "Shahbaj Borkar",
+    assignedTo: "Dakhani Usman",
     origin: "Mumbai Airport (BOM)",
     originCountry: "India",
     destination: "Frankfurt Airport (FRA)",
@@ -206,7 +206,7 @@ const modes: TransportMode[] = ["Ocean Freight", "Air Freight", "Road Freight", 
 const statuses: EnquiryStatus[] = ["New", "Under Review", "Information Required", "Rate Pending", "Ready for Quotation", "Won", "Lost", "Cancelled"];
 const priorities: EnquiryPriority[] = ["Low", "Medium", "High", "Urgent"];
 const sources: EnquirySource[] = ["Email", "Phone", "Website", "Sales Team", "Existing Customer", "Referral", "WhatsApp"];
-const owners = ["Shahbaj Borkar", "Priya Nair", "Rohan Varma"];
+const owners = ["Dakhani Usman", "Priya Nair", "Rohan Varma"];
 
 for (let i = 6; i <= 72; i++) {
   const route = cities[i % cities.length];

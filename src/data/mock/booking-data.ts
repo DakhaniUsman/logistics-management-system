@@ -57,7 +57,7 @@ MOCK_BOOKINGS.push({
   assignedTo: "Vikram Mehta",
   specialRequirements: "Provide shock-proof pallet wrapping & GDP temperature logging.",
   notes: "Primary ocean transport leg for JNPT to Jebel Ali.",
-  createdBy: "Shahbaj Borkar",
+  createdBy: "Dakhani Usman",
   createdAt: "2026-08-12T10:00:00Z",
   updatedAt: "2026-08-13T16:00:00Z",
   activities: [
@@ -67,7 +67,7 @@ MOCK_BOOKINGS.push({
       type: "Created",
       title: "Booking Record Initialized",
       description: "Booking created from Shipment SHP-2026-00125",
-      performedBy: "Shahbaj Borkar",
+      performedBy: "Dakhani Usman",
       timestamp: "2026-08-12 10:00"
     },
     {
@@ -282,7 +282,7 @@ MOCK_BOOKINGS.push({
 
 // Generate 60+ bookings programmatically based on MOCK_SHIPMENTS
 const bookingStatuses: Booking["status"][] = [
-  "Confirmed", "Pending Confirmation", "Requested", "Confirmed", "Draft", 
+  "Confirmed", "Pending Confirmation", "Requested", "Confirmed", "Draft",
   "Amendment Requested", "Amended", "Rejected", "Cancelled", "Completed"
 ];
 
@@ -307,13 +307,13 @@ MOCK_SHIPMENTS.forEach((shipment, index) => {
 
   const extRefPrefix = carrier.name.substring(0, 3).toUpperCase();
   const extRefNum = 100000 + index;
-  const bookingReference = status !== "Draft" && status !== "Requested" 
-    ? `${extRefPrefix}-BKG-${extRefNum}` 
+  const bookingReference = status !== "Draft" && status !== "Requested"
+    ? `${extRefPrefix}-BKG-${extRefNum}`
     : undefined;
 
   const isCancelled = status === "Cancelled";
   const isCompleted = status === "Completed" || shipment.status === "Delivered" || shipment.status === "Completed";
-  
+
   const bkgStatus = isCompleted ? "Completed" : isCancelled ? "Cancelled" : status;
   const cancellationReason = isCancelled ? cancellationReasons[index % cancellationReasons.length] : undefined;
 
@@ -335,7 +335,7 @@ MOCK_SHIPMENTS.forEach((shipment, index) => {
     serviceType: shipment.serviceType,
     origin: shipment.origin,
     destination: shipment.destination,
-    
+
     originPort: shipment.originPort || (shipment.transportMode === "Sea" ? `${shipment.origin} Port` : undefined),
     destinationPort: shipment.destinationPort || (shipment.transportMode === "Sea" ? `${shipment.destination} Port` : undefined),
     originAirport: shipment.originAirport || (shipment.transportMode === "Air" ? `${shipment.origin} Airport` : undefined),
@@ -368,10 +368,10 @@ MOCK_SHIPMENTS.forEach((shipment, index) => {
     volumeUnit: shipment.volumeUnit || "CBM",
     containerType: shipment.containerType || (shipment.transportMode === "Sea" ? "20FT Standard" : "Truck"),
     containerQuantity: shipment.containerQuantity || 1,
-    
+
     equipmentType: shipment.containerType || (shipment.transportMode === "Sea" ? "20FT Standard" : "Truck"),
     equipmentQuantity: shipment.containerQuantity || 1,
-    
+
     specialRequirements: shipment.specialRequirements,
     assignedTo: shipment.assignedTo || "Vikram Mehta",
     createdBy: "System Admin",
@@ -442,7 +442,7 @@ MOCK_SHIPMENTS.forEach((shipment, index) => {
       type: "Cancelled",
       title: "Booking Cancelled",
       description: `Booking cancelled. Reason: ${cancellationReason}`,
-      performedBy: "Shahbaj Borkar",
+      performedBy: "Dakhani Usman",
       timestamp: `${booking.cancelledAt?.substring(0, 10)} 10:15`
     });
   }
@@ -459,7 +459,7 @@ for (let j = 1; j <= 20; j++) {
   const shipmentId = `SHP-2026-${String(j).padStart(5, "0")}`;
   const jobId = `JOB-2026-${String(j).padStart(5, "0")}`;
   const carrier = MOCK_CARRIERS[j % MOCK_CARRIERS.length];
-  
+
   const bkgDate = new Date(Date.now() - 86400000 * (10 + j));
   const bkgDateStr = bkgDate.toISOString().split("T")[0];
 

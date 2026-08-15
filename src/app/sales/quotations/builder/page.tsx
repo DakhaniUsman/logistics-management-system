@@ -207,7 +207,7 @@ function QuotationBuilderContent() {
       destination: selectedEnquiry.destination,
       transportMode: selectedEnquiry.transportMode,
       termsAndConditions,
-      createdBy: "Shahbaj Borkar",
+      createdBy: "Dakhani Usman",
       sentAt: status === "Sent" ? new Date().toISOString().split("T")[0] : undefined,
     });
 

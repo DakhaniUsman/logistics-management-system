@@ -31,7 +31,7 @@ export default function TasksPage() {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    assignee: "Shahbaj Borkar",
+    assignee: "Dakhani Usman",
     dueDate: new Date().toISOString().split("T")[0],
     priority: "High" as TaskPriority,
     status: "Pending" as TaskStatus,
@@ -57,11 +57,10 @@ export default function TasksPage() {
             toggleTaskStatus(task.id);
             toast.success(`Updated task status`);
           }}
-          className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${
-            task.status === "Completed"
+          className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${task.status === "Completed"
               ? "bg-emerald-500 border-emerald-500 text-white"
               : "border-slate-400 hover:border-sky-500"
-          }`}
+            }`}
         >
           {task.status === "Completed" && <CheckCircle2 className="w-3 h-3" />}
         </button>
@@ -85,15 +84,14 @@ export default function TasksPage() {
       header: "Priority",
       accessor: (task) => (
         <span
-          className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
-            task.priority === "Urgent"
+          className={`text-[10px] font-bold px-2 py-0.5 rounded border ${task.priority === "Urgent"
               ? "bg-rose-50 text-rose-600 border-rose-200 dark:bg-rose-950/60 dark:text-rose-400"
               : task.priority === "High"
-              ? "bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-950/60 dark:text-amber-400"
-              : task.priority === "Medium"
-              ? "bg-sky-50 text-sky-600 border-sky-200 dark:bg-sky-950/60 dark:text-sky-400"
-              : "bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-300"
-          }`}
+                ? "bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-950/60 dark:text-amber-400"
+                : task.priority === "Medium"
+                  ? "bg-sky-50 text-sky-600 border-sky-200 dark:bg-sky-950/60 dark:text-sky-400"
+                  : "bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-300"
+            }`}
         >
           {task.priority}
         </span>

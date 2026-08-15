@@ -122,7 +122,7 @@ export const useCrmStore = create<CrmStoreState>((set, get) => ({
       industry: lead?.industry || "Commercial Freight",
       status: "Active",
       category: "Standard",
-      accountOwner: lead?.owner || "Shahbaj Borkar",
+      accountOwner: lead?.owner || "Dakhani Usman",
       primaryContactName: lead?.contactName || "Contact Lead",
       primaryContactEmail: lead?.email || "contact@converted.com",
       primaryContactPhone: lead?.phone || "+91 98000 00000",
@@ -231,10 +231,10 @@ export const useCrmStore = create<CrmStoreState>((set, get) => ({
       activities: state.activities.map((a) =>
         a.id === id
           ? {
-              ...a,
-              status,
-              completedAt: status === "Completed" ? new Date().toISOString() : a.completedAt,
-            }
+            ...a,
+            status,
+            completedAt: status === "Completed" ? new Date().toISOString() : a.completedAt,
+          }
           : a
       ),
     }));

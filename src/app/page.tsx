@@ -1,637 +1,444 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { PageHeader } from "@/components/ui/page-header";
 import { StatsCard } from "@/components/ui/stats-card";
-import { DataTable } from "@/components/ui/data-table";
-import { StatusBadge } from "@/components/ui/status-badge";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
-import { DatePicker } from "@/components/ui/date-picker";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Switch } from "@/components/ui/switch";
-import { Dialog } from "@/components/ui/dialog";
-import { Drawer } from "@/components/ui/drawer";
-import { ConfirmationDialog } from "@/components/ui/confirmation-dialog";
-import { Tabs } from "@/components/ui/tabs";
-import { Tooltip } from "@/components/ui/tooltip";
-import { Skeleton, CardSkeleton } from "@/components/ui/skeleton";
-import { LoadingState } from "@/components/ui/loading-state";
-import { EmptyState } from "@/components/ui/empty-state";
-import { ErrorState } from "@/components/ui/error-state";
-import { Timeline } from "@/components/ui/timeline";
-import { DropdownMenu } from "@/components/ui/dropdown-menu";
-import { TableColumn, LogisticsStatus } from "@/types/common";
-import { OperationalTimelineEvent } from "@/types/job";
-import { useAppStore } from "@/store/use-app-store";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { DataTable } from "@/components/ui/data-table";
 import {
-  Boxes,
+  Briefcase,
   Ship,
+  Boxes,
+  ShieldCheck,
+  Truck,
+  Building2,
+  FileCheck,
   TrendingUp,
-  DollarSign,
-  Sparkles,
-  Layers,
-  Search,
-  Plus,
-  SlidersHorizontal,
-  Bell,
-  CheckCircle2,
   AlertTriangle,
-  FileText,
   Clock,
-  Send,
-  MoreVertical,
-  Edit,
-  Trash2,
-  ExternalLink,
-  Shield,
-  ChevronDown,
+  Plus,
+  RefreshCw,
+  Eye,
+  ArrowRight,
+  FileText,
+  Users,
+  DollarSign,
+  PackageCheck,
+  Layers,
+  ChevronRight,
 } from "lucide-react";
-import { toast } from "sonner";
+import Link from "next/link";
+import { useJobStore } from "@/store/use-job-store";
+import { useBookingStore } from "@/store/use-booking-store";
+import { useContainerStore } from "@/store/use-container-store";
+import { useCustomsStore } from "@/store/use-customs-store";
+import { useTransportStore } from "@/store/use-transport-store";
+import { useWarehouseStore } from "@/store/use-warehouse-store";
+import { useDeliveryStore } from "@/store/use-delivery-store";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from "recharts";
 
-interface FoundationItem {
-  id: string;
-  code: string;
-  name: string;
-  category: string;
-  status: LogisticsStatus;
-  updatedAt: string;
-}
+export default function GlobalDashboardPage() {
+  const { jobs } = useJobStore();
+  const { bookings } = useBookingStore();
+  const { containers } = useContainerStore();
+  const { declarations } = useCustomsStore();
+  const { requests: transportReqs, trips: transportTrips } = useTransportStore();
+  const { warehouses, grns, dispatches } = useWarehouseStore();
+  const { deliveries, pods } = useDeliveryStore();
 
-const DEMO_TABLE_DATA: FoundationItem[] = [
-  {
-    id: "f-1",
-    code: "SHELL-PRM-001",
-    name: "Application Shell Container Layout",
-    category: "Layout Primitive",
-    status: "Active",
-    updatedAt: "2026-08-13 02:00",
-  },
-  {
-    id: "f-2",
-    code: "SHELL-PRM-002",
-    name: "Responsive Sidebar Navigation",
-    category: "Navigation System",
-    status: "Verified",
-    updatedAt: "2026-08-13 02:00",
-  },
-  {
-    id: "f-3",
-    code: "SHELL-PRM-003",
-    name: "Global Search Engine (⌘K Modal)",
-    category: "Global Shared UI",
-    status: "Confirmed",
-    updatedAt: "2026-08-13 02:00",
-  },
-  {
-    id: "f-4",
-    code: "SHELL-PRM-004",
-    name: "Zustand UI State Management",
-    category: "State Architecture",
-    status: "Completed",
-    updatedAt: "2026-08-13 02:00",
-  },
-  {
-    id: "f-5",
-    code: "SHELL-PRM-005",
-    name: "Data Table Foundation & Filters",
-    category: "Table Foundation",
-    status: "In Transit",
-    updatedAt: "2026-08-13 02:00",
-  },
-  {
-    id: "f-6",
-    code: "SHELL-PRM-006",
-    name: "Operational Status Badges Engine",
-    category: "Design System",
-    status: "Customs Cleared",
-    updatedAt: "2026-08-13 02:00",
-  },
-  {
-    id: "f-7",
-    code: "SHELL-PRM-007",
-    name: "Mock Base Repository Services",
-    category: "Data Service Layer",
-    status: "Approved",
-    updatedAt: "2026-08-13 02:00",
-  },
-];
+  // Operational Metrics
+  const activeJobs = jobs.filter((j) => j.status === "Active" || j.status === "In Progress").length;
+  const customsPending = declarations.filter((d) => d.status === "Under Assessment" || d.status === "Examination Required").length;
+  const inTransitTrips = transportTrips.filter((t) => t.status === "In Transit" || t.status === "Departed").length;
+  const pendingGRNs = grns.filter((g) => g.status === "Pending Verification" || g.status === "Discrepancy").length;
+  const podPendingDeliveries = deliveries.filter((d) => d.status === "POD Pending" || d.podStatus === "Under Verification").length;
+  const completedDeliveries = deliveries.filter((d) => d.status === "Completed" || d.status === "Delivered").length;
 
-const DEMO_TIMELINE: OperationalTimelineEvent[] = [
-  {
-    id: "t-1",
-    title: "Foundation & Design System Configured",
-    description: "Established colors, dark theme CSS variables, typography, and spacing tokens.",
-    timestamp: "01:30 AM",
-    completed: true,
-  },
-  {
-    id: "t-2",
-    title: "Application Shell & Navigation Mounted",
-    description: "Rendered collapsible responsive sidebar, topbar, user profile, and notifications popover.",
-    timestamp: "01:45 AM",
-    completed: true,
-  },
-  {
-    id: "t-3",
-    title: "UI Component Primitives Built",
-    description: "Input fields, buttons, status badges, modals, drawers, data table toolbar, and tabs.",
-    timestamp: "02:00 AM",
-    completed: false,
-    isCurrent: true,
-  },
-  {
-    id: "t-4",
-    title: "Ready for Business Module Development",
-    description: "Architecture clean and scalable for upcoming module-by-module implementation.",
-    timestamp: "Upcoming",
-    completed: false,
-  },
-];
+  // Visual Chart Data
+  const moduleOverviewData = [
+    { name: "Jobs", count: jobs.length },
+    { name: "Bookings", count: bookings.length },
+    { name: "Containers", count: containers.length },
+    { name: "Customs", count: declarations.length },
+    { name: "Transport", count: transportReqs.length },
+    { name: "GRNs", count: grns.length },
+    { name: "Deliveries", count: deliveries.length },
+  ];
 
-export default function FoundationShowcasePage() {
-  const { setGlobalSearchOpen } = useAppStore();
-  const [activeTab, setActiveTab] = useState("overview");
+  const COLORS = ["#0284c7", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899", "#6366f1", "#059669"];
 
-  // Modal / Drawer state
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-
-  // Form interactive state
-  const [switchChecked, setSwitchChecked] = useState(true);
-  const [checkboxChecked, setCheckboxChecked] = useState(true);
-  const [isTableLoading, setIsTableLoading] = useState(false);
-
-  const columns: TableColumn<FoundationItem>[] = [
+  // Master Active Operations Columns
+  const activeOpsColumns = [
     {
-      key: "code",
-      header: "Primitive Code",
-      accessor: (item) => (
-        <span className="font-mono font-bold text-sky-600 dark:text-sky-400">
-          {item.code}
-        </span>
-      ),
-      sortable: true,
-    },
-    {
-      key: "name",
-      header: "Component Name",
-      accessor: (item) => (
-        <div>
-          <div className="font-bold text-slate-900 dark:text-slate-100">{item.name}</div>
-          <div className="text-[11px] text-slate-400">{item.category}</div>
+      key: "jobNumber",
+      header: "Operational Job #",
+      accessor: (job: any) => (
+        <div className="flex items-center gap-2.5 min-w-[170px]">
+          <div className="p-2 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400 shrink-0">
+            <Briefcase className="w-4 h-4" />
+          </div>
+          <div className="truncate">
+            <Link
+              href={`/operations/jobs/${job.id}`}
+              className="font-extrabold text-slate-900 dark:text-slate-100 hover:text-sky-600 dark:hover:text-sky-400 block truncate transition-colors text-xs"
+            >
+              {job.jobNumber || job.id}
+            </Link>
+            <span className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold">{job.customerName}</span>
+          </div>
         </div>
       ),
-      sortable: true,
     },
     {
-      key: "status",
-      header: "Operational Status",
-      accessor: (item) => <StatusBadge status={item.status} />,
-      sortable: true,
+      key: "serviceType",
+      header: "Service & Route",
+      accessor: (job: any) => (
+        <div className="text-[11px] min-w-[150px]">
+          <span className="font-bold text-slate-800 dark:text-slate-200 block">{job.serviceType || "Sea Freight Import"}</span>
+          <span className="text-slate-500 dark:text-slate-400 text-[10px] block truncate">
+            {job.originPort || "Shanghai"} → {job.destinationPort || "Nhava Sheva"}
+          </span>
+        </div>
+      ),
     },
     {
-      key: "updatedAt",
-      header: "Last Update",
-      accessor: (item) => <span className="text-slate-400 text-xs font-mono">{item.updatedAt}</span>,
+      key: "customsStatus",
+      header: "Customs Handoff",
+      accessor: (job: any) => {
+        const customs = declarations.find((d) => d.jobId === job.id || d.jobNumber === job.jobNumber);
+        return customs ? (
+          <Link href={`/operations/customs/${customs.id}`}>
+            <StatusBadge status={customs.status} />
+          </Link>
+        ) : (
+          <span className="text-slate-400 dark:text-slate-500 text-[10px] italic">Not Filed</span>
+        );
+      },
+    },
+    {
+      key: "transportStatus",
+      header: "Transport Execution",
+      accessor: (job: any) => {
+        const tr = transportReqs.find((t) => t.jobId === job.id || t.jobNumber === job.jobNumber);
+        return tr ? (
+          <Link href={`/operations/transport/${tr.id}`}>
+            <StatusBadge status={tr.status} />
+          </Link>
+        ) : (
+          <span className="text-slate-400 dark:text-slate-500 text-[10px] italic">Pending Transport</span>
+        );
+      },
+    },
+    {
+      key: "warehouseStatus",
+      header: "Warehouse GRN",
+      accessor: (job: any) => {
+        const grn = grns.find((g) => g.jobId === job.id || g.jobNumber === job.jobNumber);
+        return grn ? (
+          <Link href="/warehouse/grn">
+            <StatusBadge status={grn.status} />
+          </Link>
+        ) : (
+          <span className="text-slate-400 dark:text-slate-500 text-[10px] italic">No GRN</span>
+        );
+      },
+    },
+    {
+      key: "deliveryStatus",
+      header: "Delivery & POD",
+      accessor: (job: any) => {
+        const del = deliveries.find((d) => d.jobId === job.id || d.jobNumber === job.jobNumber);
+        return del ? (
+          <Link href={`/operations/delivery/${del.id}`}>
+            <StatusBadge status={del.status} />
+          </Link>
+        ) : (
+          <span className="text-slate-400 dark:text-slate-500 text-[10px] italic">Pending Delivery</span>
+        );
+      },
     },
     {
       key: "actions",
       header: "Actions",
-      accessor: (item) => (
-        <DropdownMenu
-          trigger={
-            <Button variant="ghost" size="xs" icon={MoreVertical}>
-              Options
-            </Button>
-          }
-          items={[
-            {
-              label: "Inspect Component",
-              icon: ExternalLink,
-              onClick: () => toast.info(`Inspecting ${item.name}`),
-            },
-            {
-              label: "Edit Configuration",
-              icon: Edit,
-              onClick: () => setIsDrawerOpen(true),
-            },
-            "separator",
-            {
-              label: "Delete Component",
-              icon: Trash2,
-              destructive: true,
-              onClick: () => setIsConfirmOpen(true),
-            },
-          ]}
-        />
+      accessor: (job: any) => (
+        <Link href={`/operations/jobs/${job.id}`}>
+          <Button variant="outline" size="xs" icon={Eye}>
+            View Job
+          </Button>
+        </Link>
       ),
     },
   ];
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300 pb-12">
-      {/* Top Page Header */}
+      {/* Page Header */}
       <PageHeader
-        title="Logistics OS — Foundation & Application Shell"
-        subtitle="Enterprise design system, responsive shell navigation, UI primitives, and state architecture powering Eclipse Logistics Operating System."
-        breadcrumbs={[
-          { label: "System Foundation", href: "/" },
-          { label: "App Shell Showcase" },
-        ]}
+        title="LOGISTICS OS — EXECUTIVE OPERATIONAL COMMAND CENTER"
+        subtitle="End-to-end multi-modal logistics operating system: CRM, Quotations, Jobs, Shipments, Bookings, Containers, Customs, Transport, Warehouse & POD."
         actions={
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <Button
               variant="outline"
               size="sm"
-              icon={Search}
-              onClick={() => setGlobalSearchOpen(true)}
+              icon={RefreshCw}
+              onClick={() => window.location.reload()}
             >
-              Search (⌘K)
+              Refresh OS
             </Button>
 
-            <Button
-              variant="primary"
-              size="sm"
-              icon={Sparkles}
-              onClick={() => toast.success("Foundation system online & verified clean!")}
-            >
-              System Ready
-            </Button>
+            <Link href="/operations/jobs/create">
+              <Button variant="primary" size="sm" icon={Plus}>
+                Create Job
+              </Button>
+            </Link>
+
+            <Link href="/operations/delivery/pod">
+              <Button variant="outline" size="sm" icon={ShieldCheck} className="text-emerald-600 dark:text-emerald-400 border-emerald-300 dark:border-emerald-500/30">
+                POD Queue ({podPendingDeliveries})
+              </Button>
+            </Link>
           </div>
         }
       />
 
-      {/* KPI Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatsCard
-          title="Core Design System Tokens"
-          value="48 Tokens"
-          change={100}
-          changePeriod="dark & light themes"
-          icon={Boxes}
-          iconBgColor="bg-sky-500/10 text-sky-500"
-          subtitle="Variables, surface & typography"
-        />
-        <StatsCard
-          title="Reusable UI Primitives"
-          value="24 Components"
-          change={100}
-          changePeriod="shadcn/ui foundation"
-          icon={Layers}
-          iconBgColor="bg-emerald-500/10 text-emerald-500"
-          subtitle="Buttons, Cards, Tables, Modals"
-        />
-        <StatsCard
-          title="Shell Navigation Submenus"
-          value="9 Modules"
-          change={0}
-          changePeriod="ready for phase rollout"
-          icon={Ship}
-          iconBgColor="bg-blue-500/10 text-blue-500"
-          subtitle="CRM, Ops, Warehouse, Finance"
-        />
-        <StatsCard
-          title="State Store & Repositories"
-          value="100% Async"
-          change={100}
-          changePeriod="mock repository layer"
-          icon={TrendingUp}
-          iconBgColor="bg-teal-500/10 text-teal-500"
-          subtitle="Zustand + TanStack Query"
-        />
+      {/* Primary OS KPI Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+        <Link href="/operations/jobs">
+          <StatsCard title="ACTIVE JOBS" value={activeJobs.toString()} icon={Briefcase} />
+        </Link>
+
+        <Link href="/operations/bookings">
+          <StatsCard title="VESSEL BOOKINGS" value={bookings.length.toString()} icon={Ship} />
+        </Link>
+
+        <Link href="/operations/containers">
+          <StatsCard title="CONTAINERS" value={containers.length.toString()} icon={Boxes} />
+        </Link>
+
+        <Link href="/operations/customs">
+          <StatsCard title="CUSTOMS DECLARATIONS" value={declarations.length.toString()} icon={ShieldCheck} />
+        </Link>
+
+        <Link href="/operations/transport">
+          <StatsCard title="IN-TRANSIT TRIPS" value={inTransitTrips.toString()} icon={Truck} />
+        </Link>
+
+        <Link href="/warehouse/inventory">
+          <StatsCard title="WAREHOUSE FACILITIES" value={warehouses.length.toString()} icon={Building2} />
+        </Link>
+
+        <Link href="/operations/delivery">
+          <StatsCard title="DELIVERIES TODAY" value={deliveries.length.toString()} icon={PackageCheck} />
+        </Link>
+
+        <Link href="/operations/delivery/pod">
+          <StatsCard title="PODs VERIFIED" value={pods.filter((p) => p.status === "Verified").length.toString()} icon={FileCheck} />
+        </Link>
       </div>
 
-      {/* Interactive Tabs Showcase */}
-      <Card className="p-0 overflow-hidden">
-        <div className="p-4 bg-slate-900/40 border-b border-slate-200 dark:border-slate-800">
-          <Tabs
-            tabs={[
-              { id: "overview", label: "UI Component Primitives", count: 24 },
-              { id: "forms", label: "Form & Input Foundations", count: 6 },
-              { id: "overlays", label: "Modals, Drawers & Dialogs", count: 3 },
-              { id: "states", label: "Feedback & Loading States", count: 4 },
-              { id: "timeline", label: "Activity & Milestones", count: 4 },
-            ]}
-            activeTab={activeTab}
-            onChange={setActiveTab}
-          />
+      {/* End-to-End Operational Lifecycle Visual Pipeline */}
+      <Card className="p-4 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-3">
+        <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+          <div className="flex items-center gap-2">
+            <Layers className="w-4 h-4 text-sky-600 dark:text-sky-400" />
+            <h4 className="font-extrabold text-sm text-slate-900 dark:text-slate-100 uppercase tracking-wider">
+              Logistics OS End-to-End Operational Execution Lifecycle
+            </h4>
+          </div>
+          <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-500/30">
+            Phases 1 — 14 Live & Connected
+          </span>
         </div>
 
-        <div className="p-6">
-          {/* TAB 1: UI COMPONENTS */}
-          {activeTab === "overview" && (
-            <div className="space-y-8">
-              {/* Buttons */}
-              <div className="space-y-3">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400">
-                  Buttons & Triggers
-                </h3>
-                <div className="flex items-center gap-3 flex-wrap">
-                  <Button variant="primary" icon={Plus}>Primary Action</Button>
-                  <Button variant="secondary" icon={SlidersHorizontal}>Secondary Action</Button>
-                  <Button variant="outline" icon={FileText}>Outline Action</Button>
-                  <Button variant="ghost" icon={Bell}>Ghost Action</Button>
-                  <Button variant="destructive" icon={Trash2}>Destructive</Button>
-                  <Button variant="primary" isLoading>Loading State</Button>
-                  <Button variant="outline" size="xs">Extra Small</Button>
-                  <Button variant="outline" size="sm">Small</Button>
-                  <Button variant="outline" size="lg">Large Button</Button>
-                </div>
-              </div>
+        {/* 10-Step Interactive Pipeline Strip */}
+        <div className="grid grid-cols-2 sm:grid-cols-5 lg:grid-cols-10 gap-2 text-xs pt-1">
+          <Link href="/sales/crm" className="p-2.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-sky-500/50 transition-colors text-center">
+            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">1. CRM</span>
+            <span className="font-bold text-sky-600 dark:text-sky-400 text-[11px] block truncate">Leads & RFQs</span>
+          </Link>
 
-              {/* Status Badges */}
-              <div className="space-y-3">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400">
-                  Logistics Operational Status Badges
-                </h3>
-                <div className="flex items-center gap-2.5 flex-wrap">
-                  <StatusBadge status="Draft" />
-                  <StatusBadge status="Pending" />
-                  <StatusBadge status="Active" />
-                  <StatusBadge status="In Transit" />
-                  <StatusBadge status="Customs Cleared" />
-                  <StatusBadge status="Delivered" />
-                  <StatusBadge status="Completed" />
-                  <StatusBadge status="Delayed" />
-                  <StatusBadge status="Overdue" />
-                  <StatusBadge status="Cancelled" />
-                  <StatusBadge status="Paid" />
-                </div>
-              </div>
+          <Link href="/sales/quotations" className="p-2.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-sky-500/50 transition-colors text-center">
+            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">2. QUOTATION</span>
+            <span className="font-bold text-sky-600 dark:text-sky-400 text-[11px] block truncate">Rates & Quotes</span>
+          </Link>
 
-              {/* Tooltip & Dropdown Menu */}
-              <div className="space-y-3">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400">
-                  Tooltips & Context Menus
-                </h3>
-                <div className="flex items-center gap-4">
-                  <Tooltip content="Custom operational ETA tooltip explanation">
-                    <Button variant="outline" size="sm">Hover for Tooltip</Button>
-                  </Tooltip>
+          <Link href="/operations/jobs" className="p-2.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-sky-500/50 transition-colors text-center">
+            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">3. JOB EXECUTION</span>
+            <span className="font-bold text-sky-600 dark:text-sky-400 text-[11px] block truncate">Ops Job Creation</span>
+          </Link>
 
-                  <DropdownMenu
-                    trigger={
-                      <Button variant="secondary" size="sm" icon={ChevronDown}>
-                        Actions Dropdown Menu
-                      </Button>
-                    }
-                    items={[
-                      { label: "View Specifications", icon: ExternalLink, onClick: () => toast.info("Opening spec...") },
-                      { label: "Duplicate Component", icon: Sparkles, onClick: () => toast.success("Duplicated!") },
-                      "separator",
-                      { label: "Deactivate Component", icon: Trash2, destructive: true, onClick: () => toast.error("Deactivated") },
-                    ]}
-                  />
-                </div>
-              </div>
-            </div>
-          )}
+          <Link href="/operations/bookings" className="p-2.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-sky-500/50 transition-colors text-center">
+            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">4. BOOKING</span>
+            <span className="font-bold text-sky-600 dark:text-sky-400 text-[11px] block truncate">Vessel Booking</span>
+          </Link>
 
-          {/* TAB 2: FORMS */}
-          {activeTab === "forms" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Input
-                label="Logistics Entity Reference"
-                placeholder="e.g. JOB-2026-00125"
-                helperText="Standard uppercase alphanumeric reference ID."
-              />
+          <Link href="/operations/containers" className="p-2.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-sky-500/50 transition-colors text-center">
+            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">5. CONTAINER</span>
+            <span className="font-bold text-sky-600 dark:text-sky-400 text-[11px] block truncate">Equipment Track</span>
+          </Link>
 
-              <Select
-                label="Transport Mode Selection"
-                options={[
-                  { label: "Ocean Freight (FCL / LCL)", value: "ocean" },
-                  { label: "Air Freight Express", value: "air" },
-                  { label: "Road Transport Trucking", value: "road" },
-                  { label: "Rail Freight Network", value: "rail" },
-                ]}
-              />
+          <Link href="/documents/center" className="p-2.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-sky-500/50 transition-colors text-center">
+            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">6. DOCUMENTS</span>
+            <span className="font-bold text-sky-600 dark:text-sky-400 text-[11px] block truncate">Document Center</span>
+          </Link>
 
-              <DatePicker
-                label="Expected Date of Arrival (ETA)"
-                helperText="Select target port arrival timestamp."
-              />
+          <Link href="/operations/customs" className="p-2.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-sky-500/50 transition-colors text-center">
+            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">7. CUSTOMS</span>
+            <span className="font-bold text-sky-600 dark:text-sky-400 text-[11px] block truncate">Port Clearance</span>
+          </Link>
 
-              <div className="space-y-4 pt-2">
-                <Switch
-                  checked={switchChecked}
-                  onCheckedChange={setSwitchChecked}
-                  label="Automated Customs Clearing Alert"
-                  description="Receive push notifications when customs status changes."
-                />
+          <Link href="/operations/transport" className="p-2.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-sky-500/50 transition-colors text-center">
+            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">8. TRANSPORT</span>
+            <span className="font-bold text-sky-600 dark:text-sky-400 text-[11px] block truncate">Road Dispatch</span>
+          </Link>
 
-                <Checkbox
-                  checked={checkboxChecked}
-                  onChange={(e: any) => setCheckboxChecked(e.target.checked)}
-                  label="Require Digital Document Verification"
-                  description="Enforce PDF parsing validation before job closure."
-                />
-              </div>
-            </div>
-          )}
+          <Link href="/warehouse/inventory" className="p-2.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-sky-500/50 transition-colors text-center">
+            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">9. WAREHOUSE</span>
+            <span className="font-bold text-sky-600 dark:text-sky-400 text-[11px] block truncate">GRN & Storage</span>
+          </Link>
 
-          {/* TAB 3: OVERLAYS & MODALS */}
-          {activeTab === "overlays" && (
-            <div className="space-y-4">
-              <p className="text-xs text-slate-400">
-                Test interactive modal dialogs, slide-over drawers, and confirmation alerts:
-              </p>
-
-              <div className="flex items-center gap-3 flex-wrap">
-                <Button variant="primary" onClick={() => setIsDialogOpen(true)}>
-                  Open Standard Dialog Modal
-                </Button>
-
-                <Button variant="secondary" onClick={() => setIsDrawerOpen(true)}>
-                  Open Right Side-Drawer
-                </Button>
-
-                <Button variant="destructive" onClick={() => setIsConfirmOpen(true)}>
-                  Trigger Confirmation Dialog
-                </Button>
-              </div>
-
-              {/* Dialog Modal instance */}
-              <Dialog
-                isOpen={isDialogOpen}
-                onClose={() => setIsDialogOpen(false)}
-                title="System Configuration Modal"
-                description="Reusable foundation modal component for inspection and configuration."
-              >
-                <div className="space-y-4 py-2">
-                  <p className="text-xs text-slate-300">
-                    This accessible dialog supports Escape key closure, focus traps, and backdrop blurs.
-                  </p>
-                  <Input label="Configuration Key" defaultValue="LOGISTICS_OS_THEME" />
-                  <Select
-                    label="Default Environment"
-                    options={[
-                      { label: "Production (HQ Mumbai)", value: "prod" },
-                      { label: "Staging Sandbox", value: "staging" },
-                    ]}
-                  />
-                  <div className="flex justify-end gap-2 pt-2">
-                    <Button variant="outline" size="sm" onClick={() => setIsDialogOpen(false)}>
-                      Cancel
-                    </Button>
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      onClick={() => {
-                        toast.success("Saved dialog configuration!");
-                        setIsDialogOpen(false);
-                      }}
-                    >
-                      Save Configuration
-                    </Button>
-                  </div>
-                </div>
-              </Dialog>
-
-              {/* Side Drawer instance */}
-              <Drawer
-                isOpen={isDrawerOpen}
-                onClose={() => setIsDrawerOpen(false)}
-                title="Operational Inspection Drawer"
-                subtitle="Slide-over detail view for quick side editing."
-              >
-                <div className="space-y-6">
-                  <div className="p-3 rounded-lg bg-sky-950/40 border border-sky-500/30 text-xs text-sky-300">
-                    Drawers are ideal for inspecting dense job details, container trackings, and invoice line items.
-                  </div>
-
-                  <Input label="Drawer Item Name" defaultValue="Master Container Tracking" />
-                  <Input label="Carrier Vessel" defaultValue="MSC VIRTUOSA" />
-                  <Select
-                    label="Operational Priority"
-                    options={[
-                      { label: "High Priority (VIP Customer)", value: "high" },
-                      { label: "Standard Operational Priority", value: "normal" },
-                    ]}
-                  />
-
-                  <Button
-                    variant="primary"
-                    className="w-full"
-                    onClick={() => {
-                      toast.success("Drawer updates submitted successfully!");
-                      setIsDrawerOpen(false);
-                    }}
-                  >
-                    Save Drawer Changes
-                  </Button>
-                </div>
-              </Drawer>
-
-              {/* Confirmation Dialog instance */}
-              <ConfirmationDialog
-                isOpen={isConfirmOpen}
-                onClose={() => setIsConfirmOpen(false)}
-                onConfirm={() => {
-                  toast.error("Component deletion confirmed!");
-                  setIsConfirmOpen(false);
-                }}
-                title="Confirm Action"
-                description="Are you sure you want to perform this operation? This action cannot be undone."
-                variant="danger"
-                confirmText="Yes, Proceed"
-              />
-            </div>
-          )}
-
-          {/* TAB 4: STATES */}
-          {activeTab === "states" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Skeleton loading */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xs uppercase text-slate-400">Skeleton Loading State</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <CardSkeleton />
-                </CardContent>
-              </Card>
-
-              {/* Loading spinner */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xs uppercase text-slate-400">Full Loading Spinner State</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <LoadingState message="Fetching real-time freight telemetry..." />
-                </CardContent>
-              </Card>
-
-              {/* Empty state */}
-              <EmptyState
-                title="No Invoices Found"
-                description="No invoices match the specified criteria or query."
-                actionLabel="Create Invoice"
-                onAction={() => toast.info("Invoice module pending phase implementation.")}
-              />
-
-              {/* Error state */}
-              <ErrorState
-                title="Telemetry Connection Issue"
-                message="Failed to establish websocket link with Port JNPT EDI service."
-                onRetry={() => toast.success("Reconnected to JNPT EDI successfully.")}
-              />
-            </div>
-          )}
-
-          {/* TAB 5: TIMELINE */}
-          {activeTab === "timeline" && (
-            <div className="max-w-xl mx-auto py-2">
-              <h3 className="text-sm font-bold text-slate-200 mb-4">
-                Operational Stepper & Activity Audit Feed
-              </h3>
-              <Timeline events={DEMO_TIMELINE} />
-            </div>
-          )}
+          <Link href="/operations/delivery" className="p-2.5 rounded bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/50 hover:border-emerald-400 transition-colors text-center">
+            <span className="text-[9px] text-emerald-700 dark:text-emerald-400 font-bold uppercase block">10. DELIVERY</span>
+            <span className="font-bold text-emerald-800 dark:text-emerald-300 text-[11px] block truncate">Customer POD</span>
+          </Link>
         </div>
       </Card>
 
-      {/* Data Table Foundation Section */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">
-              Data Table Foundation & Toolbar
-            </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
-              Standardized data table with sortable columns, search filter, page size pagination, and contextual action menus.
-            </p>
+      {/* Operational Attention Alerts Banner */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+        <div className="p-3.5 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/30 flex items-center justify-between text-xs">
+          <div className="flex items-center gap-2.5">
+            <FileCheck className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" />
+            <div>
+              <span className="font-bold text-amber-900 dark:text-amber-300 block">{podPendingDeliveries} Deliveries Awaiting POD</span>
+              <span className="text-[11px] text-amber-700 dark:text-amber-200/80 block">Recipient E-signature verification</span>
+            </div>
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              setIsTableLoading(true);
-              setTimeout(() => {
-                setIsTableLoading(false);
-                toast.success("Table reloaded");
-              }, 800);
-            }}
-          >
-            Toggle Table Loading
-          </Button>
+          <Link href="/operations/delivery/pod">
+            <Button variant="outline" size="xs" className="border-amber-300 dark:border-amber-500/40 text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-500/20">
+              Verify
+            </Button>
+          </Link>
         </div>
 
-        <DataTable
-          data={DEMO_TABLE_DATA}
-          columns={columns}
-          searchPlaceholder="Filter primitives by name or code..."
-          searchKey={(item) => `${item.name} ${item.code} ${item.category}`}
-          isLoading={isTableLoading}
-          onRowClick={(item) => toast.info(`Clicked ${item.name}`)}
-          onExport={() => toast.success("Exported foundation dataset to CSV.")}
-          onRefresh={() => toast.info("Refreshed table records.")}
-        />
+        <div className="p-3.5 rounded-xl bg-sky-50 dark:bg-sky-500/10 border border-sky-200 dark:border-sky-500/30 flex items-center justify-between text-xs">
+          <div className="flex items-center gap-2.5">
+            <Boxes className="w-5 h-5 text-sky-600 dark:text-sky-400 shrink-0" />
+            <div>
+              <span className="font-bold text-sky-900 dark:text-sky-300 block">{pendingGRNs} GRNs Pending Verification</span>
+              <span className="text-[11px] text-sky-700 dark:text-sky-200/80 block">Warehouse cargo inspection</span>
+            </div>
+          </div>
+          <Link href="/warehouse/grn">
+            <Button variant="outline" size="xs" className="border-sky-300 dark:border-sky-500/40 text-sky-800 dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-500/20">
+              Review
+            </Button>
+          </Link>
+        </div>
+
+        <div className="p-3.5 rounded-xl bg-purple-50 dark:bg-purple-500/10 border border-purple-200 dark:border-purple-500/30 flex items-center justify-between text-xs">
+          <div className="flex items-center gap-2.5">
+            <ShieldCheck className="w-5 h-5 text-purple-600 dark:text-purple-400 shrink-0" />
+            <div>
+              <span className="font-bold text-purple-900 dark:text-purple-300 block">{customsPending} Customs Exam Requests</span>
+              <span className="text-[11px] text-purple-700 dark:text-purple-200/80 block">Port customs assessment</span>
+            </div>
+          </div>
+          <Link href="/operations/customs">
+            <Button variant="outline" size="xs" className="border-purple-300 dark:border-purple-500/40 text-purple-800 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-500/20">
+              Inspect
+            </Button>
+          </Link>
+        </div>
+
+        <div className="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30 flex items-center justify-between text-xs">
+          <div className="flex items-center gap-2.5">
+            <Truck className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+            <div>
+              <span className="font-bold text-emerald-900 dark:text-emerald-300 block">{inTransitTrips} Road Trips In Transit</span>
+              <span className="text-[11px] text-emerald-700 dark:text-emerald-200/80 block">Highway haulage dispatch</span>
+            </div>
+          </div>
+          <Link href="/operations/transport">
+            <Button variant="outline" size="xs" className="border-emerald-300 dark:border-emerald-500/40 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-500/20">
+              Track
+            </Button>
+          </Link>
+        </div>
       </div>
+
+      {/* Recharts Operations Overview */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <Card className="lg:col-span-2 p-4 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+          <CardTitle className="text-xs font-extrabold uppercase text-slate-500 dark:text-slate-400 tracking-wider mb-2">
+            Module Record Volumes Across Operating System
+          </CardTitle>
+
+          <div className="h-44 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={moduleOverviewData}>
+                <XAxis dataKey="name" stroke="#64748b" fontSize={10} tickLine={false} />
+                <YAxis stroke="#64748b" fontSize={10} tickLine={false} />
+                <Tooltip
+                  contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155", borderRadius: "8px", fontSize: "11px", color: "#f8fafc" }}
+                />
+                <Bar dataKey="count" radius={[4, 4, 0, 0]}>
+                  {moduleOverviewData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </Card>
+
+        <Card className="p-4 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+          <div>
+            <CardTitle className="text-xs font-extrabold uppercase text-slate-500 dark:text-slate-400 tracking-wider mb-2">
+              System Execution Compliance
+            </CardTitle>
+
+            <div className="space-y-3 pt-2 text-xs">
+              <div className="p-3 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40 flex items-center justify-between">
+                <div>
+                  <span className="font-bold text-slate-900 dark:text-slate-200 block">Customs Clearance Rate</span>
+                  <span className="text-slate-500 dark:text-slate-400 text-[10px]">Duty paid & released</span>
+                </div>
+                <span className="font-extrabold font-mono text-emerald-600 dark:text-emerald-400 text-sm">96.8%</span>
+              </div>
+
+              <div className="p-3 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40 flex items-center justify-between">
+                <div>
+                  <span className="font-bold text-slate-900 dark:text-slate-200 block">POD Verification Rate</span>
+                  <span className="text-slate-500 dark:text-slate-400 text-[10px]">Digital recipient POD signed</span>
+                </div>
+                <span className="font-extrabold font-mono text-sky-600 dark:text-sky-400 text-sm">98.5%</span>
+              </div>
+            </div>
+          </div>
+
+          <span className="text-[10px] text-slate-500 dark:text-slate-400 italic block pt-2 border-t border-slate-200 dark:border-slate-800">
+            * All 14 operational modules interconnected with real mock datasets.
+          </span>
+        </Card>
+      </div>
+
+      {/* Master Active Operations Table */}
+      <Card className="p-0 overflow-hidden bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+        <div className="p-4 bg-slate-50 dark:bg-slate-900/40 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+          <h4 className="font-extrabold text-sm text-slate-900 dark:text-slate-100 uppercase tracking-wider">
+            Active Multi-Modal Jobs Command Console
+          </h4>
+          <Link href="/operations/jobs" className="text-sky-600 dark:text-sky-400 text-xs font-bold hover:underline flex items-center gap-1">
+            View All Jobs ({jobs.length}) <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        <DataTable data={jobs.slice(0, 10)} columns={activeOpsColumns} isLoading={false} />
+      </Card>
     </div>
   );
 }

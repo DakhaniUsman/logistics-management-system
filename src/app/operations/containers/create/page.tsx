@@ -68,7 +68,7 @@ function ContainerCreateFormContent() {
   const watchTare = watch("tareWeight") || 0;
   const watchCargo = watch("cargoWeight") || 0;
   const watchMaxGross = watch("maxGrossWeight") || 32500;
-  
+
   const currentGross = Number(watchTare) + Number(watchCargo);
 
   // 1. Auto-fill ISO Code and Weights based on Size and Type selection
@@ -82,8 +82,8 @@ function ContainerCreateFormContent() {
       // Default tare weight guidelines
       const defaultTare =
         watchSize === "20FT" ? 2250 :
-        watchSize === "40FT" ? 3780 :
-        watchSize === "40FT HC" ? 3850 : 4180;
+          watchSize === "40FT" ? 3780 :
+            watchSize === "40FT HC" ? 3850 : 4180;
       setValue("tareWeight", defaultTare, { shouldValidate: true });
 
       // Default max gross capacity guidelines
@@ -116,15 +116,15 @@ function ContainerCreateFormContent() {
       setValue("destination", "Depot Yard", { shouldValidate: true });
       setValue("currentLocation", "Yard Depot Container Stock", { shouldValidate: true });
       setValue("currentCountry", "India", { shouldValidate: true });
-      setValue("assignedTo", "Shahbaj Borkar", { shouldValidate: true });
+      setValue("assignedTo", "Dakhani Usman", { shouldValidate: true });
     }
   }, [watchBookingId, bookings, setValue]);
 
   const onSubmit = async (values: ContainerFormValues) => {
     const defaultVolume =
       values.containerSize === "20FT" ? 33.2 :
-      values.containerSize === "40FT" ? 67.7 :
-      values.containerSize === "40FT HC" ? 76.4 : 86.0;
+        values.containerSize === "40FT" ? 67.7 :
+          values.containerSize === "40FT HC" ? 76.4 : 86.0;
 
     toast.promise(
       createContainerMutation.mutateAsync({

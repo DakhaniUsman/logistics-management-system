@@ -12,6 +12,7 @@ import { Dialog } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Timeline } from "@/components/ui/timeline";
+import { DocumentCompletenessWidget } from "@/components/documents/document-completeness-widget";
 import {
   useContainer,
   useUpdateContainerStatus,
@@ -311,6 +312,7 @@ export default function ContainerDetailPage() {
       <Tabs
         tabs={[
           { id: "overview", label: "Specs & Routing" },
+          { id: "documents", label: "Container Documents" },
           { id: "seals", label: `Seal Logs (${container.sealHistory?.length || 0})` },
           { id: "milestones", label: `Milestones Checklist (${container.milestones?.length || 0})` },
           { id: "activities", label: `Yard Activity Log (${container.activities?.length || 0})` }
@@ -318,6 +320,12 @@ export default function ContainerDetailPage() {
         activeTab={activeTab}
         onChange={setActiveTab}
       />
+
+      {activeTab === "documents" && (
+        <div className="space-y-4">
+          <DocumentCompletenessWidget containerId={container.id} />
+        </div>
+      )}
 
       {activeTab === "overview" && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

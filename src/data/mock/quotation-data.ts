@@ -40,7 +40,7 @@ export const MOCK_QUOTATIONS: Quotation[] = [
     notes: "Commercial ocean freight quotation for 1x40HC LED TV displays.",
     termsAndConditions:
       "1. Rates are subject to space and equipment availability.\n2. Demurrage and detention free time: 7 days at POD.\n3. Tariff includes BAF and THC charges.\n4. Payment terms: Net 30 Days from BL date.",
-    createdBy: "Shahbaj Borkar",
+    createdBy: "Dakhani Usman",
     approvedBy: "Priya Nair (Sales Manager)",
     sentAt: "2026-08-12 10:30",
     items: [
@@ -94,7 +94,7 @@ export const MOCK_QUOTATIONS: Quotation[] = [
       {
         revisionNumber: 1,
         createdAt: "2026-08-12",
-        createdBy: "Shahbaj Borkar",
+        createdBy: "Dakhani Usman",
         reason: "Initial commercial quotation creation.",
         subtotal: 130000,
         discountAmount: 0,
@@ -147,7 +147,7 @@ export const MOCK_QUOTATIONS: Quotation[] = [
     notes: "Urgent GDP Temp-Controlled pharma cargo delivery.",
     termsAndConditions: "GDP certified active cold chain container policy. Temperature loggers guaranteed.",
     createdBy: "Priya Nair",
-    approvedBy: "Shahbaj Borkar (Ops Director)",
+    approvedBy: "Dakhani Usman (Ops Director)",
     sentAt: "2026-08-10 14:00",
     acceptedAt: "2026-08-11 16:45",
     items: [
@@ -196,7 +196,7 @@ const statuses: QuotationStatus[] = [
 ];
 const incoterms = ["FOB", "CIF", "DDP", "EXW", "FCA"];
 const paymentTermsList = ["Net 15 Days", "Net 30 Days", "Net 45 Days", "Advance Payment"];
-const owners = ["Shahbaj Borkar", "Priya Nair", "Rohan Varma"];
+const owners = ["Dakhani Usman", "Priya Nair", "Rohan Varma"];
 
 for (let i = 3; i <= 50; i++) {
   const status = statuses[i % statuses.length];

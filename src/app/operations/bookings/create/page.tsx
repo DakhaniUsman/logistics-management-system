@@ -107,7 +107,7 @@ function CreateBookingContent() {
       containerQuantity: 1,
       specialRequirements: "",
       notes: "",
-      assignedTo: "Shahbaj Borkar"
+      assignedTo: "Dakhani Usman"
     }
   });
 
@@ -150,9 +150,9 @@ function CreateBookingContent() {
         containerQuantity: selectedShipment.containerQuantity || 1,
         specialRequirements: selectedShipment.specialRequirements || "",
         notes: selectedShipment.notes || "",
-        assignedTo: selectedShipment.assignedTo || "Shahbaj Borkar"
+        assignedTo: selectedShipment.assignedTo || "Dakhani Usman"
       });
-      
+
       // Update local state selector if prefilled
       setSelectedShipmentId(selectedShipment.id);
     }
@@ -174,7 +174,7 @@ function CreateBookingContent() {
         ...data,
         status: "Requested", // Start as space request query
         bookingReference: data.bookingReference || undefined,
-        createdBy: "Shahbaj Borkar"
+        createdBy: "Dakhani Usman"
       });
       toast.success(`Booking space reservation query initialized: ${newBooking.bookingNumber}`);
       router.push(`/operations/bookings/${newBooking.id}`);
@@ -196,14 +196,14 @@ function CreateBookingContent() {
       />
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-4xl mx-auto text-xs">
-        
+
         {/* STEP 1: PARENT SHIPMENT SELECTOR */}
         <Card className="p-5 space-y-4">
           <h3 className="text-sm font-bold uppercase tracking-wider text-sky-500 flex items-center gap-2">
             <FileText className="w-4 h-4" />
             1. Parent Shipment Allocation
           </h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Select
               label="Select Active Shipment Record"

@@ -54,7 +54,7 @@ export const MOCK_SHIPMENTS: Shipment[] = [
     specialRequirements: "Provide shock-proof pallet wrapping & GDP temperature logging.",
     notes: "Primary ocean transport leg for JNPT to Jebel Ali.",
     milestones: [
-      { id: "M-1", shipmentId: "SHP-2026-00125", type: "Created", title: "Shipment Created", status: "Completed", location: "Mumbai", plannedDate: "2026-08-12", actualDate: "2026-08-12", description: "Operational shipment created from JOB-2026-00001", createdBy: "Shahbaj Borkar" },
+      { id: "M-1", shipmentId: "SHP-2026-00125", type: "Created", title: "Shipment Created", status: "Completed", location: "Mumbai", plannedDate: "2026-08-12", actualDate: "2026-08-12", description: "Operational shipment created from JOB-2026-00001", createdBy: "Dakhani Usman" },
       { id: "M-2", shipmentId: "SHP-2026-00125", type: "Booking", title: "Booking Confirmed", status: "Completed", location: "MSC Line Office", plannedDate: "2026-08-13", actualDate: "2026-08-13", description: "Booking ref # MSC-99824 confirmed", createdBy: "Siddharth Rao" },
       { id: "M-3", shipmentId: "SHP-2026-00125", type: "Cargo", title: "Cargo Ready & Picked Up", status: "Completed", location: "Bhiwandi Warehouse", plannedDate: "2026-08-16", actualDate: "2026-08-16", description: "Truck pickup completed", createdBy: "Vikram Mehta" },
       { id: "M-4", shipmentId: "SHP-2026-00125", type: "GateIn", title: "Port Gate In & Loaded", status: "Completed", location: "JNPT Terminal 3", plannedDate: "2026-08-17", actualDate: "2026-08-17", description: "Container loaded onto MSC ANNA", createdBy: "Port Agent" },
@@ -73,7 +73,7 @@ export const MOCK_SHIPMENTS: Shipment[] = [
       { id: "DOC-3", shipmentId: "SHP-2026-00125", documentType: "Certificate of Origin", status: "Approved", required: true },
       { id: "DOC-4", shipmentId: "SHP-2026-00125", documentType: "Marine Transit Insurance Policy", status: "Available", required: false },
     ],
-    createdBy: "Shahbaj Borkar",
+    createdBy: "Dakhani Usman",
     createdAt: "2026-08-12T10:00:00Z",
     updatedAt: "2026-08-18T10:30:00Z",
   },

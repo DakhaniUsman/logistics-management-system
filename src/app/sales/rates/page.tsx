@@ -83,8 +83,8 @@ export default function RatesDashboardAndListPage() {
     status: "Active" as RateStatus,
     terms: "Subject to BAF & THC charges.",
     notes: "",
-    createdBy: "Shahbaj Borkar",
-    updatedBy: "Shahbaj Borkar",
+    createdBy: "Dakhani Usman",
+    updatedBy: "Dakhani Usman",
   });
 
   // Calculate Rate KPIs

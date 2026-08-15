@@ -43,7 +43,7 @@ export const useJobStore = create<JobStoreState>((set, get) => ({
           type: "Job Created",
           title: `Job Created`,
           description: `Operational job created for ${data.customerName} (${data.origin} → ${data.destination})`,
-          performedBy: data.createdBy || "Shahbaj Borkar",
+          performedBy: data.createdBy || "Dakhani Usman",
           timestamp: new Date().toISOString().replace("T", " ").slice(0, 16),
         },
       ],
@@ -107,7 +107,7 @@ export const useJobStore = create<JobStoreState>((set, get) => ({
       incoterm: quotation.incoterm,
       notes: quotation.notes,
       specialRequirements: quotation.termsAndConditions,
-      createdBy: "Shahbaj Borkar",
+      createdBy: "Dakhani Usman",
       createdAt: new Date().toISOString().split("T")[0],
       updatedAt: new Date().toISOString().split("T")[0],
       tasks: [
@@ -136,7 +136,7 @@ export const useJobStore = create<JobStoreState>((set, get) => ({
           type: "Job Created",
           title: `Job Created from Accepted Quotation ${quotation.quotationNumber}`,
           description: `Operational job initialized for ${quotation.customerName}.`,
-          performedBy: "Shahbaj Borkar",
+          performedBy: "Dakhani Usman",
           timestamp: new Date().toISOString().replace("T", " ").slice(0, 16),
         },
       ],
@@ -170,7 +170,7 @@ export const useJobStore = create<JobStoreState>((set, get) => ({
       type: "Status Change",
       title: `Status Changed to ${newStatus}`,
       description: note || `Operational status updated to ${newStatus}.`,
-      performedBy: "Shahbaj Borkar",
+      performedBy: "Dakhani Usman",
       timestamp: new Date().toISOString().replace("T", " ").slice(0, 16),
     };
 
@@ -178,11 +178,11 @@ export const useJobStore = create<JobStoreState>((set, get) => ({
       jobs: state.jobs.map((j) =>
         j.id === id
           ? {
-              ...j,
-              status: newStatus,
-              updatedAt: new Date().toISOString().split("T")[0],
-              activities: [activityNote, ...(j.activities || [])],
-            }
+            ...j,
+            status: newStatus,
+            updatedAt: new Date().toISOString().split("T")[0],
+            activities: [activityNote, ...(j.activities || [])],
+          }
           : j
       ),
     }));
@@ -195,7 +195,7 @@ export const useJobStore = create<JobStoreState>((set, get) => ({
       type: "Assignment",
       title: `Reassigned to ${assignedTo}`,
       description: `Job assigned to ${assignedTo} (${department || "Operations"}).`,
-      performedBy: "Shahbaj Borkar",
+      performedBy: "Dakhani Usman",
       timestamp: new Date().toISOString().replace("T", " ").slice(0, 16),
     };
 
@@ -203,12 +203,12 @@ export const useJobStore = create<JobStoreState>((set, get) => ({
       jobs: state.jobs.map((j) =>
         j.id === id
           ? {
-              ...j,
-              assignedTo,
-              assignedDepartment: department || j.assignedDepartment,
-              updatedAt: new Date().toISOString().split("T")[0],
-              activities: [activityNote, ...(j.activities || [])],
-            }
+            ...j,
+            assignedTo,
+            assignedDepartment: department || j.assignedDepartment,
+            updatedAt: new Date().toISOString().split("T")[0],
+            activities: [activityNote, ...(j.activities || [])],
+          }
           : j
       ),
     }));
@@ -221,7 +221,7 @@ export const useJobStore = create<JobStoreState>((set, get) => ({
       type: "Job Closed",
       title: `Job Operation Closed & Completed`,
       description: note || "All logistics operations & fulfillment tasks successfully completed.",
-      performedBy: "Shahbaj Borkar",
+      performedBy: "Dakhani Usman",
       timestamp: new Date().toISOString().replace("T", " ").slice(0, 16),
     };
 
@@ -229,13 +229,13 @@ export const useJobStore = create<JobStoreState>((set, get) => ({
       jobs: state.jobs.map((j) =>
         j.id === id
           ? {
-              ...j,
-              status: "Completed",
-              completedAt: new Date().toISOString().split("T")[0],
-              closedAt: new Date().toISOString().split("T")[0],
-              updatedAt: new Date().toISOString().split("T")[0],
-              activities: [activityNote, ...(j.activities || [])],
-            }
+            ...j,
+            status: "Completed",
+            completedAt: new Date().toISOString().split("T")[0],
+            closedAt: new Date().toISOString().split("T")[0],
+            updatedAt: new Date().toISOString().split("T")[0],
+            activities: [activityNote, ...(j.activities || [])],
+          }
           : j
       ),
     }));
@@ -285,7 +285,7 @@ export const useJobStore = create<JobStoreState>((set, get) => ({
       type,
       title,
       description,
-      performedBy: "Shahbaj Borkar",
+      performedBy: "Dakhani Usman",
       timestamp: new Date().toISOString().replace("T", " ").slice(0, 16),
     };
 

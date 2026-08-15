@@ -67,7 +67,7 @@ MOCK_CONTAINERS.push({
       type: "Created",
       title: "Container Registered",
       description: "Container MSCU1234567 assigned to Booking BKG-2026-00125",
-      performedBy: "Shahbaj Borkar",
+      performedBy: "Dakhani Usman",
       timestamp: "2026-08-14 08:00"
     },
     {
@@ -232,7 +232,7 @@ const containerSizes: Container["containerSize"][] = ["20FT", "40FT", "40FT HC",
 const conditions: ContainerCondition[] = ["Good", "Good", "Good", "Minor Damage", "Good", "Inspection Required", "Good"];
 
 const containerStatuses: ContainerStatus[] = [
-  "Gate In", "Loaded", "Departed", "In Transit", "At Destination", "Released", 
+  "Gate In", "Loaded", "Departed", "In Transit", "At Destination", "Released",
   "Out for Delivery", "Delivered", "Empty Return Pending", "Returned"
 ];
 
@@ -256,7 +256,7 @@ MOCK_BOOKINGS.forEach((booking, idx) => {
   if (booking.transportMode !== "Sea" && booking.transportMode !== "Road" && booking.transportMode !== "Rail") {
     return;
   }
-  
+
   // Skip the first three we manually seeded above
   if (booking.id === "BKG-2026-00125" || booking.id === "BKG-2026-00127") {
     return;
@@ -264,7 +264,7 @@ MOCK_BOOKINGS.forEach((booking, idx) => {
 
   // Determine how many containers to assign (e.g. required 1, or 2)
   const reqQty = booking.containerQuantity || booking.quantity || 1;
-  
+
   // Decide whether this booking is fully assigned, partially assigned, or unassigned (equipment shortage)
   let numToAssign = reqQty;
   if (idx % 8 === 0) {
@@ -279,20 +279,20 @@ MOCK_BOOKINGS.forEach((booking, idx) => {
     const containerIdNum = globalContainerIdCount++;
     const containerNumber = generateContainerNumber(containerIdNum);
     const id = `CON-2026-${String(containerIdNum).padStart(5, "0")}`;
-    
+
     // Choose container type matching what booking requests or a default
     const typeIdx = containerIdNum % containerTypes.length;
     const type = booking.containerType?.includes("Reefer") ? "Reefer" : containerTypes[typeIdx];
-    
+
     const sizeIdx = containerIdNum % containerSizes.length;
-    const size = booking.containerType?.includes("20FT") ? "20FT" 
-                 : booking.containerType?.includes("40FT HC") ? "40FT HC"
-                 : booking.containerType?.includes("45FT") ? "45FT"
-                 : containerSizes[sizeIdx];
-    
+    const size = booking.containerType?.includes("20FT") ? "20FT"
+      : booking.containerType?.includes("40FT HC") ? "40FT HC"
+        : booking.containerType?.includes("45FT") ? "45FT"
+          : containerSizes[sizeIdx];
+
     // ISO code
     const iso = (ISO_CODES as any)[size]?.[type] || "42G1";
-    
+
     // Status
     let status: ContainerStatus = "Assigned";
     if (booking.status === "Completed") {
@@ -391,7 +391,7 @@ for (let e = 1; e <= 10; e++) {
     origin: "",
     destination: "",
     condition: e % 5 === 0 ? "Minor Damage" : "Good",
-    assignedTo: "Shahbaj Borkar",
+    assignedTo: "Dakhani Usman",
     createdAt: "2026-08-01T08:00:00Z",
     updatedAt: "2026-08-10T14:30:00Z",
     activities: [

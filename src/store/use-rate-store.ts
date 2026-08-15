@@ -98,7 +98,7 @@ export const useRateStore = create<RateStoreState>((set, get) => ({
           rateId: id,
           previousRate: target.rate,
           newRate: data.rate,
-          changedBy: "Shahbaj Borkar",
+          changedBy: "Dakhani Usman",
           changedDate: new Date().toISOString().split("T")[0],
           reason: reason || "Manual rate adjustment",
         },
@@ -110,11 +110,11 @@ export const useRateStore = create<RateStoreState>((set, get) => ({
       rates: state.rates.map((r) =>
         r.id === id
           ? {
-              ...r,
-              ...data,
-              history: updatedHistory,
-              updatedAt: new Date().toISOString().split("T")[0],
-            }
+            ...r,
+            ...data,
+            history: updatedHistory,
+            updatedAt: new Date().toISOString().split("T")[0],
+          }
           : r
       ),
     }));

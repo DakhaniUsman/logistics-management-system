@@ -48,7 +48,7 @@ export default function CompaniesPage() {
     country: "India",
     taxId: "27AAACB1234K1Z0",
     status: "Active Prospect" as const,
-    owner: "Shahbaj Borkar",
+    owner: "Dakhani Usman",
   });
 
   const columns: TableColumn<Company>[] = [

@@ -90,7 +90,7 @@ function CreateJobContent() {
         incoterm: "FOB",
         specialRequirements: formData.specialRequirements,
         notes: formData.notes,
-        createdBy: "Shahbaj Borkar",
+        createdBy: "Dakhani Usman",
       });
 
       toast.success(`Created Direct Job ${newJob.jobNumber}`);

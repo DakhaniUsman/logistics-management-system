@@ -74,11 +74,12 @@ const NAVIGATION_SECTIONS: { section: string; items: NavItem[] }[] = [
         children: [
           { title: "Jobs Command Center", href: "/operations/jobs" },
           { title: "Create Operational Job", href: "/operations/jobs/create" },
-          { title: "Shipments (Phase 7)", href: "/operations/jobs" },
-          { title: "Bookings (Phase 8)", href: "/operations/bookings" },
-          { title: "Containers (Phase 9)", href: "/operations/containers" },
-          { title: "Transport (Phase 10)", href: "/operations/jobs" },
-          { title: "Customs (Phase 11)", href: "/operations/jobs" },
+          { title: "Shipments", href: "/operations/jobs" },
+          { title: "Bookings", href: "/operations/bookings" },
+          { title: "Containers", href: "/operations/containers" },
+          { title: "Transport Execution", href: "/operations/transport" },
+          { title: "Delivery Execution & POD", href: "/operations/delivery" },
+          { title: "Customs Clearance", href: "/operations/customs" },
         ],
       },
     ],
@@ -108,8 +109,9 @@ const NAVIGATION_SECTIONS: { section: string; items: NavItem[] }[] = [
         icon: FileText,
         children: [
           { title: "Document Center", href: "/documents/center" },
+          { title: "Verification Queue", href: "/documents/verification" },
+          { title: "Requirements Matrix", href: "/documents/requirements" },
           { title: "Templates", href: "/documents/templates" },
-          { title: "Verification", href: "/documents/verification" },
         ],
       },
     ],
@@ -216,13 +218,13 @@ export function Sidebar() {
 
       <aside
         className={cn(
-          "fixed top-0 bottom-0 left-0 z-50 bg-slate-900 text-slate-100 flex flex-col border-r border-slate-800 transition-all duration-300",
+          "fixed top-0 bottom-0 left-0 z-50 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 flex flex-col border-r border-slate-200 dark:border-slate-800 transition-all duration-300",
           isSidebarCollapsed ? "w-20" : "w-64",
           isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
         {/* Brand Header */}
-        <div className="h-16 px-4 flex items-center justify-between border-b border-slate-800/80">
+        <div className="h-16 px-4 flex items-center justify-between border-b border-slate-200 dark:border-slate-800/80">
           <Link
             href="/"
             className="flex items-center gap-3 overflow-hidden"
@@ -233,10 +235,10 @@ export function Sidebar() {
             </div>
             {!isSidebarCollapsed && (
               <div className="truncate">
-                <span className="font-extrabold text-base tracking-tight text-white block truncate">
-                  LOGISTICS <span className="text-sky-400">OS</span>
+                <span className="font-extrabold text-base tracking-tight text-slate-900 dark:text-white block truncate">
+                  LOGISTICS <span className="text-sky-600 dark:text-sky-400">OS</span>
                 </span>
-                <span className="block text-[10px] text-slate-400 font-medium tracking-wider uppercase truncate">
+                <span className="block text-[10px] text-slate-500 dark:text-slate-400 font-medium tracking-wider uppercase truncate">
                   {currentOrg.branch}
                 </span>
               </div>
@@ -246,7 +248,7 @@ export function Sidebar() {
           {/* Desktop Collapse Toggle */}
           <button
             onClick={toggleSidebarCollapse}
-            className="hidden lg:flex p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors"
+            className="hidden lg:flex p-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             title={isSidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
           >
             {isSidebarCollapsed ? (
@@ -262,7 +264,7 @@ export function Sidebar() {
           {NAVIGATION_SECTIONS.map((sec) => (
             <div key={sec.section}>
               {!isSidebarCollapsed && (
-                <div className="px-3 mb-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest truncate">
+                <div className="px-3 mb-1.5 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest truncate">
                   {sec.section}
                 </div>
               )}
@@ -282,8 +284,8 @@ export function Sidebar() {
                         className={cn(
                           "flex items-center justify-between px-3 py-2 text-xs font-medium rounded-lg transition-colors",
                           isActive
-                            ? "bg-sky-600/20 text-sky-400 border border-sky-500/30 font-semibold"
-                            : "text-slate-300 hover:bg-slate-800 hover:text-white",
+                            ? "bg-sky-50 dark:bg-sky-600/20 text-sky-700 dark:text-sky-400 border border-sky-200 dark:border-sky-500/30 font-semibold"
+                            : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white",
                           isSidebarCollapsed && "justify-center px-0"
                         )}
                         title={isSidebarCollapsed ? item.title : undefined}
@@ -293,7 +295,7 @@ export function Sidebar() {
                           {!isSidebarCollapsed && <span className="truncate">{item.title}</span>}
                         </div>
                         {!isSidebarCollapsed && item.badge && (
-                          <span className="text-[10px] bg-sky-500/20 text-sky-300 px-1.5 py-0.5 rounded font-bold">
+                          <span className="text-[10px] bg-sky-100 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 px-1.5 py-0.5 rounded font-bold">
                             {item.badge}
                           </span>
                         )}
@@ -309,7 +311,7 @@ export function Sidebar() {
                           toggleSubmenu(item.title);
                         }}
                         className={cn(
-                          "w-full flex items-center justify-between px-3 py-2 text-xs font-medium text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg transition-colors",
+                          "w-full flex items-center justify-between px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white rounded-lg transition-colors",
                           isSidebarCollapsed && "justify-center px-0"
                         )}
                         title={isSidebarCollapsed ? item.title : undefined}
@@ -321,7 +323,7 @@ export function Sidebar() {
                         {!isSidebarCollapsed && (
                           <div className="flex items-center gap-1.5">
                             {item.badge && (
-                              <span className="text-[10px] bg-sky-500/20 text-sky-300 px-1.5 py-0.5 rounded font-bold">
+                              <span className="text-[10px] bg-sky-100 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 px-1.5 py-0.5 rounded font-bold">
                                 {item.badge}
                               </span>
                             )}
@@ -335,7 +337,7 @@ export function Sidebar() {
                       </button>
 
                       {!isSidebarCollapsed && isOpen && item.children && (
-                        <div className="ml-4 pl-3 mt-1 space-y-0.5 border-l border-slate-800">
+                        <div className="ml-4 pl-3 mt-1 space-y-0.5 border-l border-slate-200 dark:border-slate-800">
                           {item.children.map((child) => {
                             const isChildActive = pathname === child.href;
                             return (
@@ -346,13 +348,13 @@ export function Sidebar() {
                                 className={cn(
                                   "flex items-center justify-between px-2.5 py-1.5 text-[11px] font-medium rounded transition-colors",
                                   isChildActive
-                                    ? "text-sky-400 font-semibold bg-sky-500/10"
-                                    : "text-slate-400 hover:text-slate-100 hover:bg-slate-800/60"
+                                    ? "text-sky-700 dark:text-sky-400 font-semibold bg-sky-50 dark:bg-sky-500/10"
+                                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/60"
                                 )}
                               >
                                 <span className="truncate">{child.title}</span>
                                 {child.badge && (
-                                  <span className="text-[9px] bg-emerald-500/20 text-emerald-400 px-1 py-0.5 rounded font-bold shrink-0">
+                                  <span className="text-[9px] bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 px-1 py-0.5 rounded font-bold shrink-0">
                                     {child.badge}
                                   </span>
                                 )}
@@ -370,15 +372,15 @@ export function Sidebar() {
         </div>
 
         {/* Footer info */}
-        <div className="p-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between bg-slate-950/40">
+        <div className="p-3 border-t border-slate-200 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 flex items-center justify-between bg-slate-50/70 dark:bg-slate-950/40">
           {!isSidebarCollapsed ? (
             <>
               <div>
-                <span className="font-semibold text-slate-300">Logistics OS</span> v1.0
+                <span className="font-semibold text-slate-800 dark:text-slate-300">Logistics OS</span> v1.0
               </div>
               <div className="flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[10px] text-emerald-400 font-semibold">Online</span>
+                <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">Online</span>
               </div>
             </>
           ) : (

@@ -98,7 +98,7 @@ export const HERO_ANCHOR_JOB: Job = {
   },
   createdAt: "2026-08-01",
   updatedAt: "2026-08-11",
-  assignedManager: "Shahbaj Borkar (Operations Lead)",
+  assignedManager: "Dakhani Usman (Operations Lead)",
   timeline: [
     {
       id: "TL-1",
@@ -301,7 +301,7 @@ export const MOCK_JOBS: Job[] = [
     },
     createdAt: "2026-08-05",
     updatedAt: "2026-08-12",
-    assignedManager: "Shahbaj Borkar (Operations Lead)",
+    assignedManager: "Dakhani Usman (Operations Lead)",
     timeline: [],
   },
   {

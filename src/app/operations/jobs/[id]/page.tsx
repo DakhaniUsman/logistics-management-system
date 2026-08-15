@@ -14,6 +14,12 @@ import { Timeline } from "@/components/ui/timeline";
 import { JobStatus, JobPriority } from "@/types/job";
 import { useJobStore } from "@/store/use-job-store";
 import { useBookingStore } from "@/store/use-booking-store";
+import { useDocumentStore } from "@/store/use-document-store";
+import { useCustomsStore } from "@/store/use-customs-store";
+import { useTransportStore } from "@/store/use-transport-store";
+import { DocumentCompletenessWidget } from "@/components/documents/document-completeness-widget";
+import { DocumentUploadModal } from "@/components/documents/document-upload-modal";
+import { DocumentPreviewModal } from "@/components/documents/document-preview-modal";
 import { MOCK_SHIPMENTS } from "@/data/mock/shipment-data";
 import { formatCurrency } from "@/lib/utils";
 import {
@@ -60,6 +66,14 @@ export default function JobDetailPage() {
   const matchingShipment = MOCK_SHIPMENTS.find(
     (s) => s.jobId.toLowerCase() === job.id.toLowerCase() || s.jobNumber?.toLowerCase() === job.jobNumber?.toLowerCase()
   );
+
+  const { getCustomsForJob } = useCustomsStore();
+  const jobCustoms = getCustomsForJob(job.id);
+  const activeCustoms = jobCustoms[0];
+
+  const { getTransportForJob } = useTransportStore();
+  const jobTransport = getTransportForJob(job.id);
+  const activeTransport = jobTransport[0];
 
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -452,12 +466,79 @@ export default function JobDetailPage() {
                   <p className="text-slate-400 text-[11px]">Primary shipment records linked: <code>{matchingShipment?.id || "None found"}</code>.</p>
                 </Card>
 
-                <Card className="p-4 border-dashed border-slate-800 bg-slate-950/20 space-y-2 opacity-60">
-                  <div className="flex items-center gap-2 text-amber-400 font-bold">
-                    <Truck className="w-4 h-4" />
-                    <span>Transport Execution (Phase 10)</span>
+                <Card className="p-4 border border-slate-800 bg-slate-900/40 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-sky-400 font-bold">
+                      <FileText className="w-4 h-4" />
+                      <span>Customs Clearance (Phase 11)</span>
+                    </div>
+
+                    {activeCustoms && (
+                      <StatusBadge status={activeCustoms.status} />
+                    )}
                   </div>
-                  <p className="text-slate-400 text-[11px]">First-mile trailer pickup & feeder dispatch orders will attach here.</p>
+
+                  {activeCustoms ? (
+                    <div className="space-y-1 text-xs">
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-300 font-bold">{activeCustoms.declarationNumber}</span>
+                        <Link href={`/operations/customs/${activeCustoms.id}`} className="text-sky-400 hover:underline font-bold text-[11px]">
+                          View Customs →
+                        </Link>
+                      </div>
+                      <p className="text-[11px] text-slate-400">{activeCustoms.customsOffice} • Duty: {activeCustoms.currency} {activeCustoms.totalPayable.toLocaleString()}</p>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between pt-1">
+                      <p className="text-slate-400 text-[11px]">No customs declaration linked to this operational job.</p>
+                      <Link href="/operations/customs/create">
+                        <Button variant="outline" size="xs" icon={Plus}>
+                          Create Customs
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
+                </Card>
+
+                <Card className="p-4 border border-slate-800 bg-slate-900/40 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-emerald-400 font-bold">
+                      <Truck className="w-4 h-4" />
+                      <span>Transport Execution (Phase 12)</span>
+                    </div>
+
+                    {activeTransport && (
+                      <StatusBadge status={activeTransport.status} />
+                    )}
+                  </div>
+
+                  {activeTransport ? (
+                    <div className="space-y-1 text-xs">
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-300 font-bold">{activeTransport.requestNumber}</span>
+                        <Link href={`/operations/transport/${activeTransport.id}`} className="text-emerald-400 hover:underline font-bold text-[11px]">
+                          View Transport →
+                        </Link>
+                      </div>
+                      <p className="text-[11px] text-slate-400">
+                        {activeTransport.pickupLocation} → {activeTransport.destinationLocation}
+                      </p>
+                      {activeTransport.assignedVehicleNumber && (
+                        <p className="text-[10px] font-mono text-sky-400">
+                          Vehicle: {activeTransport.assignedVehicleNumber} ({activeTransport.assignedDriverName})
+                        </p>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between pt-1">
+                      <p className="text-slate-400 text-[11px]">No road transport request linked to this operational job.</p>
+                      <Link href="/operations/transport/create">
+                        <Button variant="outline" size="xs" icon={Plus}>
+                          Request Transport
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
                 </Card>
               </div>
             </div>
@@ -465,25 +546,8 @@ export default function JobDetailPage() {
 
           {/* TAB 4: DOCUMENTS AREA */}
           {activeTab === "documents" && (
-            <div className="space-y-3 text-xs">
-              <h4 className="font-bold text-sm text-slate-900 dark:text-slate-100 border-b border-slate-200 dark:border-slate-800 pb-2">
-                Job Document Readiness Checklist
-              </h4>
-              <div className="space-y-2">
-                {(job.documents || []).map((doc) => (
-                  <div key={doc.id} className="p-3 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-between">
-                    <div>
-                      <span className="font-bold text-slate-900 dark:text-slate-100 block">{doc.documentType}</span>
-                      <span className="text-slate-400 text-[10px]">{doc.required ? "Mandatory Export Document" : "Optional Certificate"}</span>
-                    </div>
-                    <span className={`px-2 py-0.5 text-[10px] font-bold rounded ${
-                      doc.status === "Approved" ? "bg-emerald-500/20 text-emerald-400" : "bg-amber-500/20 text-amber-400"
-                    }`}>
-                      {doc.status}
-                    </span>
-                  </div>
-                ))}
-              </div>
+            <div className="space-y-4 text-xs">
+              <DocumentCompletenessWidget jobId={job.id} />
             </div>
           )}
 

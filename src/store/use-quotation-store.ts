@@ -76,7 +76,7 @@ export const useQuotationStore = create<QuotationStoreState>((set, get) => ({
     const revEntry = {
       revisionNumber: nextRevNum,
       createdAt: new Date().toISOString().split("T")[0],
-      createdBy: "Shahbaj Borkar",
+      createdBy: "Dakhani Usman",
       reason: reason || "Negotiation price revision",
       subtotal: updatedData?.subtotal || target.subtotal,
       discountAmount: updatedData?.discountAmount || target.discountAmount,
@@ -106,11 +106,11 @@ export const useQuotationStore = create<QuotationStoreState>((set, get) => ({
       quotations: state.quotations.map((q) =>
         q.id === id
           ? {
-              ...q,
-              status: "Draft",
-              approvedBy: approverName,
-              updatedAt: new Date().toISOString().split("T")[0],
-            }
+            ...q,
+            status: "Draft",
+            approvedBy: approverName,
+            updatedAt: new Date().toISOString().split("T")[0],
+          }
           : q
       ),
     }));
@@ -124,11 +124,11 @@ export const useQuotationStore = create<QuotationStoreState>((set, get) => ({
       quotations: state.quotations.map((q) =>
         q.id === id
           ? {
-              ...q,
-              status: "Sent",
-              sentAt: new Date().toISOString().split("T")[0] + " " + new Date().toTimeString().slice(0, 5),
-              updatedAt: new Date().toISOString().split("T")[0],
-            }
+            ...q,
+            status: "Sent",
+            sentAt: new Date().toISOString().split("T")[0] + " " + new Date().toTimeString().slice(0, 5),
+            updatedAt: new Date().toISOString().split("T")[0],
+          }
           : q
       ),
     }));
@@ -145,11 +145,11 @@ export const useQuotationStore = create<QuotationStoreState>((set, get) => ({
       quotations: state.quotations.map((q) =>
         q.id === id
           ? {
-              ...q,
-              status: "Accepted",
-              acceptedAt: new Date().toISOString().split("T")[0] + " " + new Date().toTimeString().slice(0, 5),
-              updatedAt: new Date().toISOString().split("T")[0],
-            }
+            ...q,
+            status: "Accepted",
+            acceptedAt: new Date().toISOString().split("T")[0] + " " + new Date().toTimeString().slice(0, 5),
+            updatedAt: new Date().toISOString().split("T")[0],
+          }
           : q
       ),
     }));
@@ -166,12 +166,12 @@ export const useQuotationStore = create<QuotationStoreState>((set, get) => ({
       quotations: state.quotations.map((q) =>
         q.id === id
           ? {
-              ...q,
-              status: "Rejected",
-              rejectedAt: new Date().toISOString().split("T")[0] + " " + new Date().toTimeString().slice(0, 5),
-              notes: `Rejected by customer. Reason: ${reason}`,
-              updatedAt: new Date().toISOString().split("T")[0],
-            }
+            ...q,
+            status: "Rejected",
+            rejectedAt: new Date().toISOString().split("T")[0] + " " + new Date().toTimeString().slice(0, 5),
+            notes: `Rejected by customer. Reason: ${reason}`,
+            updatedAt: new Date().toISOString().split("T")[0],
+          }
           : q
       ),
     }));

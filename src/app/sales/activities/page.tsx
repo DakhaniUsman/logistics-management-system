@@ -40,7 +40,7 @@ export default function ActivitiesPage() {
     relatedEntity: "Lead" as const,
     relatedEntityId: "LEAD-2026-001",
     relatedEntityName: "SunRise Solar Energy Corp",
-    assignedTo: "Shahbaj Borkar",
+    assignedTo: "Dakhani Usman",
     dueDate: "2026-08-15",
     status: "Upcoming" as const,
   });

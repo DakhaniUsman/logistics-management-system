@@ -61,7 +61,7 @@ export default function LeadsPage() {
     phone: "",
     source: "Website" as LeadSource,
     status: "New" as LeadStatus,
-    owner: "Shahbaj Borkar",
+    owner: "Dakhani Usman",
     industry: "Consumer Electronics",
     location: "Mumbai, Maharashtra",
     estimatedValue: 2500000,
@@ -319,11 +319,10 @@ export default function LeadsPage() {
                   <button
                     key={st}
                     onClick={() => updateLeadStatus(selectedLead.id, st)}
-                    className={`px-2 py-1 text-[10px] font-bold rounded border transition-all ${
-                      selectedLead.status === st
+                    className={`px-2 py-1 text-[10px] font-bold rounded border transition-all ${selectedLead.status === st
                         ? "bg-sky-600 text-white border-sky-600 shadow-sm"
                         : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-sky-500"
-                    }`}
+                      }`}
                   >
                     {st}
                   </button>

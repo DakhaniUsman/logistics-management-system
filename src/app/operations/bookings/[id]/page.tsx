@@ -14,6 +14,7 @@ import { Select } from "@/components/ui/select";
 import { Timeline } from "@/components/ui/timeline";
 import { useBookingStore } from "@/store/use-booking-store";
 import { useContainers } from "@/hooks/use-containers";
+import { DocumentCompletenessWidget } from "@/components/documents/document-completeness-widget";
 import {
   Layers,
   ArrowRight,
@@ -113,7 +114,7 @@ export default function BookingDetailPage() {
       toast.error("Carrier Reference is required");
       return;
     }
-    
+
     confirmBooking(booking.id, {
       bookingReference: carrierRef,
       vesselName: booking.transportMode === "Sea" ? vesselName : undefined,
@@ -123,7 +124,7 @@ export default function BookingDetailPage() {
       etd: etdDate || undefined,
       eta: etaDate || undefined
     });
-    
+
     setIsConfirmOpen(false);
     toast.success(`Booking space confirmed under reference ${carrierRef}`);
   };
@@ -143,10 +144,10 @@ export default function BookingDetailPage() {
   // Handle Cancel Submission
   const handleCancelSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const reasonText = cancellationComments 
+    const reasonText = cancellationComments
       ? `${cancellationReason} - ${cancellationComments}`
       : cancellationReason;
-    
+
     cancelBooking(booking.id, reasonText);
     setIsCancelOpen(false);
     toast.error("Booking space has been cancelled.");
@@ -176,7 +177,7 @@ export default function BookingDetailPage() {
       oldValue: procOldVal || (booking as any)[procField] || "Not Set",
       newValue: procNewVal,
       reason: procReason,
-      changedBy: "Shahbaj Borkar"
+      changedBy: "Dakhani Usman"
     });
     setIsProcAmendmentOpen(false);
     toast.success(`Booking parameter updated. Status set to Amended.`);
@@ -283,6 +284,7 @@ export default function BookingDetailPage() {
         tabs={[
           { id: "overview", label: "Booking Overview" },
           { id: "transport", label: "Transport Details" },
+          { id: "documents", label: "Documents Area" },
           { id: "containers", label: `Container Allocation`, count: bookingContainers.length },
           { id: "timeline", label: "Activities & Logs", count: booking.activities?.length || 0 },
           { id: "amendments", label: "Amendment History", count: booking.amendments?.length || 0 }
@@ -290,6 +292,12 @@ export default function BookingDetailPage() {
         activeTab={activeTab}
         onChange={setActiveTab}
       />
+
+      {activeTab === "documents" && (
+        <div className="space-y-4">
+          <DocumentCompletenessWidget bookingId={booking.id} />
+        </div>
+      )}
 
       {activeTab === "overview" && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

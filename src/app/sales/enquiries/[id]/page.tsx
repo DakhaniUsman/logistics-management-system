@@ -61,7 +61,7 @@ export default function EnquiryDetailPage() {
 
   // Form states
   const [selectedStatus, setSelectedStatus] = useState<EnquiryStatus>(enquiry?.status || "Under Review");
-  const [assignedUser, setAssignedUser] = useState(enquiry?.assignedTo || "Shahbaj Borkar");
+  const [assignedUser, setAssignedUser] = useState(enquiry?.assignedTo || "Dakhani Usman");
   const [activityForm, setActivityForm] = useState({
     title: "",
     description: "",
@@ -159,13 +159,12 @@ export default function EnquiryDetailPage() {
           <div className="flex items-center gap-2">
             <StatusBadge status={enquiry.status} />
             <span
-              className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
-                enquiry.priority === "Urgent"
+              className={`text-[10px] font-bold px-2 py-0.5 rounded border ${enquiry.priority === "Urgent"
                   ? "bg-rose-50 text-rose-600 border-rose-200 dark:bg-rose-950/60 dark:text-rose-400"
                   : enquiry.priority === "High"
-                  ? "bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-950/60 dark:text-amber-400"
-                  : "bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-300"
-              }`}
+                    ? "bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-950/60 dark:text-amber-400"
+                    : "bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-300"
+                }`}
             >
               {enquiry.priority} Priority
             </span>
@@ -584,7 +583,7 @@ export default function EnquiryDetailPage() {
             value={assignedUser}
             onChange={(e) => setAssignedUser(e.target.value)}
             options={[
-              { label: "Shahbaj Borkar (Ops Manager)", value: "Shahbaj Borkar" },
+              { label: "Dakhani Usman (Ops Manager)", value: "Dakhani Usman" },
               { label: "Priya Nair (Sales Executive)", value: "Priya Nair" },
               { label: "Rohan Varma (Logistics Lead)", value: "Rohan Varma" },
             ]}

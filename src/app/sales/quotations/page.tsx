@@ -333,7 +333,7 @@ export default function QuotationsDashboardAndListPage() {
                 onChange={(e) => setOwnerFilter(e.target.value)}
                 options={[
                   { label: "All Representatives", value: "ALL" },
-                  { label: "Shahbaj Borkar", value: "Shahbaj Borkar" },
+                  { label: "Dakhani Usman", value: "Dakhani Usman" },
                   { label: "Priya Nair", value: "Priya Nair" },
                   { label: "Rohan Varma", value: "Rohan Varma" },
                 ]}

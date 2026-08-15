@@ -4,7 +4,7 @@ import { MOCK_BOOKINGS } from "@/data/mock/booking-data";
 
 interface BookingStoreState {
   bookings: Booking[];
-  
+
   createBooking: (data: Omit<Booking, "id" | "bookingNumber" | "createdAt" | "updatedAt" | "activities" | "amendments">) => Booking;
   createBookingFromShipment: (shipment: any, carrierId: string, carrierName: string, additionalDetails: Partial<Booking>) => Booking;
   updateBooking: (id: string, data: Partial<Booking>) => void;
@@ -23,7 +23,7 @@ export const useBookingStore = create<BookingStoreState>((set, get) => ({
   createBooking: (data) => {
     const nextNum = get().bookings.length + 1;
     const bookingId = `BKG-2026-${nextNum.toString().padStart(5, "0")}`;
-    
+
     const newBooking: Booking = {
       ...data,
       id: bookingId,
@@ -65,7 +65,7 @@ export const useBookingStore = create<BookingStoreState>((set, get) => ({
       status: "Draft",
       transportMode: shipment.transportMode,
       serviceType: shipment.serviceType || "Port-to-Port",
-      
+
       origin: shipment.origin,
       destination: shipment.destination,
       originPort: shipment.originPort || (shipment.transportMode === "Sea" ? shipment.origin : undefined),
@@ -101,11 +101,11 @@ export const useBookingStore = create<BookingStoreState>((set, get) => ({
       containerQuantity: shipment.containerQuantity || additionalDetails.containerQuantity || 1,
       equipmentType: shipment.containerType || additionalDetails.containerType || "",
       equipmentQuantity: shipment.containerQuantity || additionalDetails.containerQuantity || 1,
-      
+
       specialRequirements: additionalDetails.specialRequirements || shipment.specialRequirements || "",
       notes: additionalDetails.notes || shipment.notes || "",
-      assignedTo: shipment.assignedTo || "Shahbaj Borkar",
-      createdBy: "Shahbaj Borkar",
+      assignedTo: shipment.assignedTo || "Dakhani Usman",
+      createdBy: "Dakhani Usman",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       activities: [
@@ -115,7 +115,7 @@ export const useBookingStore = create<BookingStoreState>((set, get) => ({
           type: "Created",
           title: "Booking Created",
           description: `Booking initiated from Shipment ${shipment.id}`,
-          performedBy: "Shahbaj Borkar",
+          performedBy: "Dakhani Usman",
           timestamp: new Date().toISOString().replace("T", " ").slice(0, 16)
         }
       ],
@@ -136,7 +136,7 @@ export const useBookingStore = create<BookingStoreState>((set, get) => ({
 
   confirmBooking: (id, confirmationDetails) => {
     const timestamp = new Date().toISOString().replace("T", " ").slice(0, 16);
-    
+
     set((state) => ({
       bookings: state.bookings.map((b) => {
         if (b.id === id) {
@@ -146,10 +146,10 @@ export const useBookingStore = create<BookingStoreState>((set, get) => ({
             type: "Confirmed",
             title: "Booking Confirmed by Carrier",
             description: `Space reservation confirmed with reference ${confirmationDetails.bookingReference} by Operations Manager.`,
-            performedBy: "Shahbaj Borkar",
+            performedBy: "Dakhani Usman",
             timestamp
           };
-          
+
           return {
             ...b,
             ...confirmationDetails,
@@ -166,7 +166,7 @@ export const useBookingStore = create<BookingStoreState>((set, get) => ({
 
   rejectBooking: (id, reason) => {
     const timestamp = new Date().toISOString().replace("T", " ").slice(0, 16);
-    
+
     set((state) => ({
       bookings: state.bookings.map((b) => {
         if (b.id === id) {
@@ -176,10 +176,10 @@ export const useBookingStore = create<BookingStoreState>((set, get) => ({
             type: "Rejected",
             title: "Booking Space Rejected",
             description: `Carrier rejected space allocation query. Reason: ${reason}`,
-            performedBy: "Shahbaj Borkar",
+            performedBy: "Dakhani Usman",
             timestamp
           };
-          
+
           return {
             ...b,
             status: "Rejected",
@@ -195,7 +195,7 @@ export const useBookingStore = create<BookingStoreState>((set, get) => ({
 
   requestAmendment: (id, fieldName, newValue, reason) => {
     const timestamp = new Date().toISOString().replace("T", " ").slice(0, 16);
-    
+
     set((state) => ({
       bookings: state.bookings.map((b) => {
         if (b.id === id) {
@@ -205,10 +205,10 @@ export const useBookingStore = create<BookingStoreState>((set, get) => ({
             type: "Amendment Requested",
             title: "Booking Amendment Requested",
             description: `Request sent to amend ${fieldName} to "${newValue}". Reason: ${reason}`,
-            performedBy: "Shahbaj Borkar",
+            performedBy: "Dakhani Usman",
             timestamp
           };
-          
+
           return {
             ...b,
             status: "Amendment Requested",
@@ -224,7 +224,7 @@ export const useBookingStore = create<BookingStoreState>((set, get) => ({
   createAmendment: (id, amendmentData) => {
     const timestamp = new Date().toISOString().replace("T", " ").slice(0, 16);
     const amendmentId = `AMD-${Date.now()}`;
-    
+
     set((state) => ({
       bookings: state.bookings.map((b) => {
         if (b.id === id) {
@@ -267,7 +267,7 @@ export const useBookingStore = create<BookingStoreState>((set, get) => ({
 
   cancelBooking: (id, reason) => {
     const timestamp = new Date().toISOString().replace("T", " ").slice(0, 16);
-    
+
     set((state) => ({
       bookings: state.bookings.map((b) => {
         if (b.id === id) {
@@ -277,10 +277,10 @@ export const useBookingStore = create<BookingStoreState>((set, get) => ({
             type: "Cancelled",
             title: "Booking Cancelled",
             description: `Booking space cancelled. Reason: ${reason}`,
-            performedBy: "Shahbaj Borkar",
+            performedBy: "Dakhani Usman",
             timestamp
           };
-          
+
           return {
             ...b,
             status: "Cancelled",
@@ -297,7 +297,7 @@ export const useBookingStore = create<BookingStoreState>((set, get) => ({
 
   completeBooking: (id) => {
     const timestamp = new Date().toISOString().replace("T", " ").slice(0, 16);
-    
+
     set((state) => ({
       bookings: state.bookings.map((b) => {
         if (b.id === id) {
@@ -310,7 +310,7 @@ export const useBookingStore = create<BookingStoreState>((set, get) => ({
             performedBy: "System",
             timestamp
           };
-          
+
           return {
             ...b,
             status: "Completed",
@@ -324,7 +324,7 @@ export const useBookingStore = create<BookingStoreState>((set, get) => ({
     }));
   },
 
-  addBookingActivity: (bookingId, type, title, description, performedBy = "Shahbaj Borkar") => {
+  addBookingActivity: (bookingId, type, title, description, performedBy = "Dakhani Usman") => {
     const timestamp = new Date().toISOString().replace("T", " ").slice(0, 16);
     const act: BookingActivity = {
       id: `ACT-${Date.now()}`,
@@ -340,10 +340,10 @@ export const useBookingStore = create<BookingStoreState>((set, get) => ({
       bookings: state.bookings.map((b) =>
         b.id === bookingId
           ? {
-              ...b,
-              updatedAt: new Date().toISOString(),
-              activities: [act, ...(b.activities || [])]
-            }
+            ...b,
+            updatedAt: new Date().toISOString(),
+            activities: [act, ...(b.activities || [])]
+          }
           : b
       )
     }));
