@@ -236,7 +236,7 @@ export const useTransportStore = create<TransportStoreState>((set, get) => ({
         pickupTime: data.pickupTime || "10:00 AM",
         expectedDeliveryDate: data.expectedDeliveryDate || new Date().toISOString().split("T")[0],
         specialInstructions: data.specialInstructions,
-        createdBy: "Shahbaj Borkar (Ops Lead)",
+        createdBy: "Dakhani Usman (Ops Lead)",
         createdAt: now,
         updatedAt: now,
       };
@@ -313,7 +313,7 @@ export const useTransportStore = create<TransportStoreState>((set, get) => ({
 
   updateTripStatus: async (tripId, status, notes) => {
     try {
-      const updatedTrip = await transportRepository.updateTripStatus(tripId, status, notes, "Shahbaj Borkar");
+      const updatedTrip = await transportRepository.updateTripStatus(tripId, status, notes, "Dakhani Usman");
       if (updatedTrip) {
         set((state) => ({
           trips: state.trips.map((t) => (t.id === tripId ? updatedTrip : t)),
@@ -333,7 +333,7 @@ export const useTransportStore = create<TransportStoreState>((set, get) => ({
 
   markDelayed: async (tripId, reason) => {
     try {
-      const updatedTrip = await transportRepository.markDelayed(tripId, reason, "Shahbaj Borkar");
+      const updatedTrip = await transportRepository.markDelayed(tripId, reason, "Dakhani Usman");
       if (updatedTrip) {
         set((state) => ({
           trips: state.trips.map((t) => (t.id === tripId ? updatedTrip : t)),
@@ -355,7 +355,7 @@ export const useTransportStore = create<TransportStoreState>((set, get) => ({
     try {
       const updatedTrip = await transportRepository.addTransportExpense(tripId, {
         ...expense,
-        createdBy: "Shahbaj Borkar",
+        createdBy: "Dakhani Usman",
       });
       if (updatedTrip) {
         set((state) => ({

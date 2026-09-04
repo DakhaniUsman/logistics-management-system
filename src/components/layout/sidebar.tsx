@@ -223,20 +223,40 @@ export function Sidebar() {
           isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
+        {/* Desktop Expand Pill Toggle (placed on border edge when collapsed, eliminating internal header collision) */}
+        {isSidebarCollapsed && (
+          <button
+            onClick={toggleSidebarCollapse}
+            className="hidden lg:flex absolute -right-3 top-5 z-50 w-6 h-6 rounded-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 shadow-md items-center justify-center text-slate-500 hover:text-sky-600 dark:text-slate-400 dark:hover:text-sky-400 hover:scale-110 hover:border-sky-500/50 transition-all duration-200 cursor-pointer"
+            title="Expand Sidebar"
+          >
+            <PanelLeftOpen className="w-3.5 h-3.5" />
+          </button>
+        )}
+
         {/* Brand Header */}
-        <div className="h-16 px-4 flex items-center justify-between border-b border-slate-200 dark:border-slate-800/80">
+        <div
+          className={cn(
+            "h-16 border-b border-slate-200 dark:border-slate-800/80 flex items-center transition-all duration-300",
+            isSidebarCollapsed ? "justify-center px-2" : "justify-between px-4"
+          )}
+        >
           <Link
             href="/"
-            className="flex items-center gap-3 overflow-hidden"
+            className={cn(
+              "flex items-center overflow-hidden transition-all",
+              isSidebarCollapsed ? "justify-center" : "gap-3"
+            )}
             onClick={() => setMobileSidebarOpen(false)}
+            title={isSidebarCollapsed ? "FLOQ — Home" : undefined}
           >
-            <div className="w-9 h-9 rounded-lg bg-sky-600 flex items-center justify-center text-white font-black shadow-lg shadow-sky-600/30 shrink-0">
+            <div className="w-9 h-9 rounded-lg bg-sky-600 flex items-center justify-center text-white font-black shadow-lg shadow-sky-600/30 shrink-0 hover:bg-sky-500 transition-colors">
               <Boxes className="w-5 h-5" />
             </div>
             {!isSidebarCollapsed && (
               <div className="truncate">
                 <span className="font-extrabold text-base tracking-tight text-slate-900 dark:text-white block truncate">
-                  LOGISTICS <span className="text-sky-600 dark:text-sky-400">OS</span>
+                  <span className="text-sky-600 dark:text-sky-400">FLOQ</span>
                 </span>
                 <span className="block text-[10px] text-slate-500 dark:text-slate-400 font-medium tracking-wider uppercase truncate">
                   {currentOrg.branch}
@@ -245,18 +265,16 @@ export function Sidebar() {
             )}
           </Link>
 
-          {/* Desktop Collapse Toggle */}
-          <button
-            onClick={toggleSidebarCollapse}
-            className="hidden lg:flex p-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-            title={isSidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-          >
-            {isSidebarCollapsed ? (
-              <PanelLeftOpen className="w-4 h-4" />
-            ) : (
+          {/* Desktop Collapse Toggle (visible when expanded) */}
+          {!isSidebarCollapsed && (
+            <button
+              onClick={toggleSidebarCollapse}
+              className="hidden lg:flex p-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+              title="Collapse Sidebar"
+            >
               <PanelLeftClose className="w-4 h-4" />
-            )}
-          </button>
+            </button>
+          )}
         </div>
 
         {/* Scrollable Navigation Items */}
@@ -376,7 +394,7 @@ export function Sidebar() {
           {!isSidebarCollapsed ? (
             <>
               <div>
-                <span className="font-semibold text-slate-800 dark:text-slate-300">Logistics OS</span> v1.0
+                <span className="font-semibold text-slate-800 dark:text-slate-300">FLOQ</span> v1.0
               </div>
               <div className="flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />

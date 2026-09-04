@@ -37,7 +37,7 @@ import { useCustomsStore } from "@/store/use-customs-store";
 import { useTransportStore } from "@/store/use-transport-store";
 import { useWarehouseStore } from "@/store/use-warehouse-store";
 import { useDeliveryStore } from "@/store/use-delivery-store";
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from "recharts";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell, LabelList } from "recharts";
 
 export default function GlobalDashboardPage() {
   const { jobs } = useJobStore();
@@ -176,7 +176,7 @@ export default function GlobalDashboardPage() {
     <div className="space-y-6 animate-in fade-in duration-300 pb-12">
       {/* Page Header */}
       <PageHeader
-        title="LOGISTICS OS — EXECUTIVE OPERATIONAL COMMAND CENTER"
+        title="FLOQ — EXECUTIVE OPERATIONAL COMMAND CENTER"
         subtitle="End-to-end multi-modal logistics operating system: CRM, Quotations, Jobs, Shipments, Bookings, Containers, Customs, Transport, Warehouse & POD."
         actions={
           <div className="flex items-center gap-2 flex-wrap">
@@ -205,37 +205,93 @@ export default function GlobalDashboardPage() {
       />
 
       {/* Primary OS KPI Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
-        <Link href="/operations/jobs">
-          <StatsCard title="ACTIVE JOBS" value={activeJobs.toString()} icon={Briefcase} />
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3.5 lg:gap-4">
+        <Link href="/operations/jobs" className="group block focus:outline-none">
+          <StatsCard
+            title="ACTIVE JOBS"
+            value={activeJobs.toString()}
+            subtitle={`${jobs.length} total registered jobs`}
+            icon={Briefcase}
+            iconBgColor="bg-sky-500/10 text-sky-600 dark:text-sky-400 group-hover:bg-sky-500/20 group-hover:scale-105"
+            className="h-full hover:border-sky-500/50 hover:shadow-md transition-all duration-200"
+          />
         </Link>
 
-        <Link href="/operations/bookings">
-          <StatsCard title="VESSEL BOOKINGS" value={bookings.length.toString()} icon={Ship} />
+        <Link href="/operations/bookings" className="group block focus:outline-none">
+          <StatsCard
+            title="VESSEL BOOKINGS"
+            value={bookings.length.toString()}
+            subtitle="Ocean & air freight scheduled"
+            icon={Ship}
+            iconBgColor="bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-500/20 group-hover:scale-105"
+            className="h-full hover:border-indigo-500/50 hover:shadow-md transition-all duration-200"
+          />
         </Link>
 
-        <Link href="/operations/containers">
-          <StatsCard title="CONTAINERS" value={containers.length.toString()} icon={Boxes} />
+        <Link href="/operations/containers" className="group block focus:outline-none">
+          <StatsCard
+            title="CONTAINERS"
+            value={containers.length.toString()}
+            subtitle="Equipment units in tracking"
+            icon={Boxes}
+            iconBgColor="bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 group-hover:bg-cyan-500/20 group-hover:scale-105"
+            className="h-full hover:border-cyan-500/50 hover:shadow-md transition-all duration-200"
+          />
         </Link>
 
-        <Link href="/operations/customs">
-          <StatsCard title="CUSTOMS DECLARATIONS" value={declarations.length.toString()} icon={ShieldCheck} />
+        <Link href="/operations/customs" className="group block focus:outline-none">
+          <StatsCard
+            title="CUSTOMS CLEARANCE"
+            value={declarations.length.toString()}
+            subtitle={`${customsPending} pending examination`}
+            icon={ShieldCheck}
+            iconBgColor="bg-amber-500/10 text-amber-600 dark:text-amber-400 group-hover:bg-amber-500/20 group-hover:scale-105"
+            className="h-full hover:border-amber-500/50 hover:shadow-md transition-all duration-200"
+          />
         </Link>
 
-        <Link href="/operations/transport">
-          <StatsCard title="IN-TRANSIT TRIPS" value={inTransitTrips.toString()} icon={Truck} />
+        <Link href="/operations/transport" className="group block focus:outline-none">
+          <StatsCard
+            title="IN-TRANSIT TRIPS"
+            value={inTransitTrips.toString()}
+            subtitle={`${transportReqs.length} haulage fleet dispatches`}
+            icon={Truck}
+            iconBgColor="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-500/20 group-hover:scale-105"
+            className="h-full hover:border-emerald-500/50 hover:shadow-md transition-all duration-200"
+          />
         </Link>
 
-        <Link href="/warehouse/inventory">
-          <StatsCard title="WAREHOUSE FACILITIES" value={warehouses.length.toString()} icon={Building2} />
+        <Link href="/warehouse/inventory" className="group block focus:outline-none">
+          <StatsCard
+            title="WAREHOUSE HUBS"
+            value={warehouses.length.toString()}
+            subtitle={`${grns.length} GRNs logged across hubs`}
+            icon={Building2}
+            iconBgColor="bg-purple-500/10 text-purple-600 dark:text-purple-400 group-hover:bg-purple-500/20 group-hover:scale-105"
+            className="h-full hover:border-purple-500/50 hover:shadow-md transition-all duration-200"
+          />
         </Link>
 
-        <Link href="/operations/delivery">
-          <StatsCard title="DELIVERIES TODAY" value={deliveries.length.toString()} icon={PackageCheck} />
+        <Link href="/operations/delivery" className="group block focus:outline-none">
+          <StatsCard
+            title="DELIVERIES TODAY"
+            value={deliveries.length.toString()}
+            subtitle={`${completedDeliveries} completed · ${podPendingDeliveries} on route`}
+            icon={PackageCheck}
+            iconBgColor="bg-blue-500/10 text-blue-600 dark:text-blue-400 group-hover:bg-blue-500/20 group-hover:scale-105"
+            className="h-full hover:border-blue-500/50 hover:shadow-md transition-all duration-200"
+          />
         </Link>
 
-        <Link href="/operations/delivery/pod">
-          <StatsCard title="PODs VERIFIED" value={pods.filter((p) => p.status === "Verified").length.toString()} icon={FileCheck} />
+        <Link href="/operations/delivery/pod" className="group block focus:outline-none">
+          <StatsCard
+            title="PODs VERIFIED"
+            value={pods.filter((p) => p.status === "Verified").length.toString()}
+            subtitle={`${podPendingDeliveries} pending digital verification`}
+            icon={FileCheck}
+            iconBgColor="bg-teal-500/10 text-teal-600 dark:text-teal-400 group-hover:bg-teal-500/20 group-hover:scale-105"
+            className="h-full hover:border-teal-500/50 hover:shadow-md transition-all duration-200"
+          />
         </Link>
       </div>
 
@@ -245,7 +301,7 @@ export default function GlobalDashboardPage() {
           <div className="flex items-center gap-2">
             <Layers className="w-4 h-4 text-sky-600 dark:text-sky-400" />
             <h4 className="font-extrabold text-sm text-slate-900 dark:text-slate-100 uppercase tracking-wider">
-              Logistics OS End-to-End Operational Execution Lifecycle
+              FLOQ End-to-End Operational Execution Lifecycle
             </h4>
           </div>
           <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-500/30">
@@ -377,15 +433,38 @@ export default function GlobalDashboardPage() {
             Module Record Volumes Across Operating System
           </CardTitle>
 
-          <div className="h-44 w-full">
+          <div className="h-48 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={moduleOverviewData}>
-                <XAxis dataKey="name" stroke="#64748b" fontSize={10} tickLine={false} />
-                <YAxis stroke="#64748b" fontSize={10} tickLine={false} />
-                <Tooltip
-                  contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155", borderRadius: "8px", fontSize: "11px", color: "#f8fafc" }}
+              <BarChart data={moduleOverviewData} margin={{ top: 20, right: 10, left: -20, bottom: 0 }}>
+                <XAxis dataKey="name" stroke="#64748b" fontSize={11} tickLine={false} />
+                <YAxis
+                  stroke="#64748b"
+                  fontSize={10}
+                  tickLine={false}
+                  domain={[0, (dataMax: number) => Math.ceil((dataMax + 40) / 40) * 40]}
                 />
-                <Bar dataKey="count" radius={[4, 4, 0, 0]}>
+                <Tooltip
+                  cursor={{ fill: "rgba(56, 189, 248, 0.08)" }}
+                  contentStyle={{
+                    backgroundColor: "#0f172a",
+                    borderColor: "#334155",
+                    borderRadius: "8px",
+                    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.5)",
+                    padding: "8px 12px",
+                  }}
+                  itemStyle={{ color: "#38bdf8", fontWeight: 700, fontSize: "12px" }}
+                  labelStyle={{ color: "#f8fafc", fontWeight: 700, fontSize: "12px", marginBottom: "4px" }}
+                  formatter={(value: any) => [`${value} records`, "Total Count"]}
+                />
+                <Bar dataKey="count" radius={[5, 5, 0, 0]}>
+                  <LabelList
+                    dataKey="count"
+                    position="top"
+                    fill="#94a3b8"
+                    fontSize={11}
+                    fontWeight={700}
+                    offset={6}
+                  />
                   {moduleOverviewData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}

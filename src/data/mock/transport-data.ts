@@ -66,7 +66,7 @@ export const MOCK_TRIPS: Trip[] = [
       { id: "EXP-003", tripId: "TRIP-2026-00125", category: "Driver Allowance", amount: 4000, currency: "INR", description: "Driver night trip allowance & food", expenseDate: "2026-08-16 10:00", createdBy: "Dispatcher", createdAt: "2026-08-16 10:00" },
     ],
     milestones: [
-      { id: "M1", title: "Trip Created & Assigned", status: "Completed", timestamp: "2026-08-15 14:00", completedBy: "Shahbaj Borkar" },
+      { id: "M1", title: "Trip Created & Assigned", status: "Completed", timestamp: "2026-08-15 14:00", completedBy: "Dakhani Usman" },
       { id: "M2", title: "Vehicle & Driver Confirmed", status: "Completed", timestamp: "2026-08-15 14:30", completedBy: "Suresh Shinde" },
       { id: "M3", title: "Cargo Picked Up at Port", status: "Completed", timestamp: "2026-08-16 10:15", completedBy: "Rahul Shaikh" },
       { id: "M4", title: "Container Sealed & Loaded", status: "Completed", timestamp: "2026-08-16 10:45", completedBy: "Rahul Shaikh" },
@@ -76,7 +76,7 @@ export const MOCK_TRIPS: Trip[] = [
       { id: "M8", title: "Trip Completed", status: "Pending" },
     ],
     activities: [
-      { id: "ACT-TRIP-1", requestId: "TR-2026-00125", tripId: "TRIP-2026-00125", type: "Created", title: "Trip Created & Scheduled", description: "Trip TRIP-2026-00125 scheduled for vehicle MH 04 AB 1234.", performedBy: "Shahbaj Borkar", timestamp: "2026-08-15 14:00" },
+      { id: "ACT-TRIP-1", requestId: "TR-2026-00125", tripId: "TRIP-2026-00125", type: "Created", title: "Trip Created & Scheduled", description: "Trip TRIP-2026-00125 scheduled for vehicle MH 04 AB 1234.", performedBy: "Dakhani Usman", timestamp: "2026-08-15 14:00" },
       { id: "ACT-TRIP-2", requestId: "TR-2026-00125", tripId: "TRIP-2026-00125", type: "Departure", title: "Departed JNPT Gate", description: "Truck MH 04 AB 1234 departed JNPT gate for Bhiwandi.", performedBy: "Rahul Shaikh", timestamp: "2026-08-16 11:00" },
     ],
     createdAt: "2026-08-15 14:00",
@@ -124,7 +124,7 @@ export const MOCK_TRANSPORT_REQUESTS: TransportRequest[] = [
     assignedDriverId: "DRV-001",
     assignedDriverName: "Rahul Shaikh",
     tripId: "TRIP-2026-00125",
-    createdBy: "Shahbaj Borkar (Ops Lead)",
+    createdBy: "Dakhani Usman (Ops Lead)",
     createdAt: "2026-08-15 10:00",
     updatedAt: "2026-08-16 11:30",
   },

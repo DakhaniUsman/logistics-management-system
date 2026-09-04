@@ -320,8 +320,8 @@ export default function LeadsPage() {
                     key={st}
                     onClick={() => updateLeadStatus(selectedLead.id, st)}
                     className={`px-2 py-1 text-[10px] font-bold rounded border transition-all ${selectedLead.status === st
-                        ? "bg-sky-600 text-white border-sky-600 shadow-sm"
-                        : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-sky-500"
+                      ? "bg-sky-600 text-white border-sky-600 shadow-sm"
+                      : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-sky-500"
                       }`}
                   >
                     {st}
@@ -417,7 +417,7 @@ export default function LeadsPage() {
         isOpen={isCreateDrawerOpen}
         onClose={() => setIsCreateDrawerOpen(false)}
         title="Create New Lead Opportunity"
-        subtitle="Register a prospective commercial inquiry into Logistics OS CRM."
+        subtitle="Register a prospective commercial inquiry into FLOQ CRM."
       >
         <form onSubmit={handleCreateSubmit} className="space-y-4">
           <Input
@@ -562,7 +562,7 @@ export default function LeadsPage() {
         isOpen={isConvertModalOpen}
         onClose={() => setIsConvertModalOpen(false)}
         title="Convert Lead to Active Customer"
-        description="Transition this commercial opportunity into an active shipper account in Logistics OS."
+        description="Transition this commercial opportunity into an active shipper account in FLOQ."
       >
         {selectedLead && (
           <div className="space-y-4 py-2">
