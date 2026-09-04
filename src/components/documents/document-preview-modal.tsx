@@ -100,25 +100,22 @@ export function DocumentPreviewModal({ isOpen, onClose, document: doc }: Documen
         <div className="flex border-b border-slate-800 gap-4 text-xs font-bold text-slate-400">
           <button
             onClick={() => setActiveViewTab("preview")}
-            className={`pb-2 border-b-2 transition-colors ${
-              activeViewTab === "preview" ? "border-sky-400 text-sky-400" : "border-transparent hover:text-slate-200"
-            }`}
+            className={`pb-2 border-b-2 transition-colors ${activeViewTab === "preview" ? "border-sky-400 text-sky-400" : "border-transparent hover:text-slate-200"
+              }`}
           >
             File Preview
           </button>
           <button
             onClick={() => setActiveViewTab("versions")}
-            className={`pb-2 border-b-2 transition-colors ${
-              activeViewTab === "versions" ? "border-sky-400 text-sky-400" : "border-transparent hover:text-slate-200"
-            }`}
+            className={`pb-2 border-b-2 transition-colors ${activeViewTab === "versions" ? "border-sky-400 text-sky-400" : "border-transparent hover:text-slate-200"
+              }`}
           >
             Version History ({doc.versions.length})
           </button>
           <button
             onClick={() => setActiveViewTab("audit")}
-            className={`pb-2 border-b-2 transition-colors ${
-              activeViewTab === "audit" ? "border-sky-400 text-sky-400" : "border-transparent hover:text-slate-200"
-            }`}
+            className={`pb-2 border-b-2 transition-colors ${activeViewTab === "audit" ? "border-sky-400 text-sky-400" : "border-transparent hover:text-slate-200"
+              }`}
           >
             Audit History ({doc.activities.length})
           </button>
@@ -138,7 +135,7 @@ export function DocumentPreviewModal({ isOpen, onClose, document: doc }: Documen
                       <p className="text-[9px] text-slate-500">{doc.documentNumber}</p>
                     </div>
                     <div className="text-right">
-                      <p className="font-bold text-sky-600">LOGISTICS OS VERIFIED</p>
+                      <p className="font-bold text-sky-600">FLOQ VERIFIED</p>
                       <p className="text-[9px] text-slate-400">Date: {doc.issueDate || "2026-08-14"}</p>
                     </div>
                   </div>

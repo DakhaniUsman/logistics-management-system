@@ -15,12 +15,15 @@ import {
   Sun,
   Shield,
   Check,
+  PanelLeftOpen,
 } from "lucide-react";
 import { useAppStore } from "@/store/use-app-store";
 import { cn } from "@/lib/utils";
 
 export function Topbar() {
   const {
+    isSidebarCollapsed,
+    toggleSidebarCollapse,
     setMobileSidebarOpen,
     setGlobalSearchOpen,
     notifications,
@@ -47,6 +50,17 @@ export function Topbar() {
         >
           <Menu className="w-5 h-5" />
         </button>
+
+        {/* Desktop Expand Toggle when sidebar is collapsed */}
+        {/* {isSidebarCollapsed && (
+          <button
+            onClick={toggleSidebarCollapse}
+            className="hidden lg:flex p-2 rounded-lg text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+            title="Expand Sidebar"
+          >
+            <PanelLeftOpen className="w-4 h-4" />
+          </button>
+        )} */}
 
         {/* Global Search Button */}
         <button

@@ -386,7 +386,7 @@ export default function CustomersPage() {
         isOpen={isCreateOpen}
         onClose={() => setIsCreateOpen(false)}
         title="Add Customer Account"
-        subtitle="Establish a new active commercial account in Logistics OS."
+        subtitle="Establish a new active commercial account in FLOQ."
       >
         <form onSubmit={handleCreateSubmit} className="space-y-4">
           <Input

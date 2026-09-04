@@ -142,7 +142,7 @@ export function GlobalSearchDialog() {
         {/* Footer shortcuts */}
         <div className="px-4 py-2.5 bg-slate-50 dark:bg-slate-950/50 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs text-slate-400">
           <div>
-            Search powered by <span className="font-semibold text-slate-600 dark:text-slate-300">Logistics OS Engine</span>
+            Search powered by <span className="font-semibold text-slate-600 dark:text-slate-300">FLOQ Engine</span>
           </div>
           <div className="flex items-center gap-2">
             <kbd className="px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-[10px] text-slate-600 dark:text-slate-300 font-mono">ESC</kbd> to close

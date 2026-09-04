@@ -111,7 +111,7 @@ export const useAppStore = create<AppStoreState>((set) => ({
 
   user: {
     name: "Dakhani Usman",
-    email: "shahbaj@eclipselogistics.com",
+    email: "Usman@floq.com",
     role: "Operations Manager",
     department: "Global Freight Forwarding",
   },

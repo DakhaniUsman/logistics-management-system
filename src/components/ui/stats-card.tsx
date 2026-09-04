@@ -32,33 +32,33 @@ export function StatsCard({
     <div
       onClick={onClick}
       className={cn(
-        "logistics-card p-5 transition-all duration-200 hover:shadow-md dark:hover:border-slate-700",
+        "logistics-card p-4 sm:p-5 transition-all duration-200 hover:shadow-md dark:hover:border-slate-700",
         onClick && "cursor-pointer hover:border-sky-500/40",
         className
       )}
     >
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate" title={title}>
             {title}
           </p>
-          <p className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50 mt-1">
+          <p className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-slate-50 mt-1">
             {value}
           </p>
         </div>
         {Icon && (
-          <div className={cn("p-2.5 rounded-xl flex items-center justify-center shrink-0", iconBgColor)}>
+          <div className={cn("p-2.5 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-200", iconBgColor)}>
             <Icon className="w-5 h-5" />
           </div>
         )}
       </div>
 
       {(change !== undefined || subtitle) && (
-        <div className="mt-3 flex items-center gap-2 text-xs">
+        <div className="mt-2.5 flex items-center gap-2 text-xs">
           {change !== undefined && (
             <span
               className={cn(
-                "inline-flex items-center gap-0.5 font-semibold rounded px-1.5 py-0.5",
+                "inline-flex items-center gap-0.5 font-semibold rounded px-1.5 py-0.5 shrink-0",
                 isPositive && "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400",
                 isNegative && "bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-400",
                 !isPositive && !isNegative && "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
@@ -70,7 +70,7 @@ export function StatsCard({
               {change > 0 ? `+${change}%` : `${change}%`}
             </span>
           )}
-          <span className="text-slate-500 dark:text-slate-400">
+          <span className="text-slate-500 dark:text-slate-400 truncate text-[11px] sm:text-xs">
             {subtitle || changePeriod}
           </span>
         </div>

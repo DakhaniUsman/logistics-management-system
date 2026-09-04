@@ -237,7 +237,7 @@ export default function QuotationDetailPage() {
               {/* Document Header */}
               <div className="flex items-start justify-between border-b border-slate-800 pb-6">
                 <div>
-                  <h2 className="text-xl font-bold text-slate-100 tracking-wider">LOGISTICS OS FREIGHT</h2>
+                  <h2 className="text-xl font-bold text-slate-100 tracking-wider">FLOQ FREIGHT</h2>
                   <p className="text-slate-400 text-[11px] mt-0.5">Enterprise Logistics Operating System</p>
                   <p className="text-slate-500 text-[10px]">Mumbai • Singapore • Dubai • Hamburg</p>
                 </div>
