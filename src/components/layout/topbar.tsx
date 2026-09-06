@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Menu,
   Search,
@@ -21,6 +22,7 @@ import { useAppStore } from "@/store/use-app-store";
 import { cn } from "@/lib/utils";
 
 export function Topbar() {
+  const router = useRouter();
   const {
     isSidebarCollapsed,
     toggleSidebarCollapse,
@@ -37,6 +39,17 @@ export function Topbar() {
 
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+      router.push("/login");
+      router.refresh();
+    } catch (err) {
+      console.error("Logout failed:", err);
+      window.location.href = "/login";
+    }
+  };
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
@@ -206,9 +219,12 @@ export function Topbar() {
                 <Shield className="w-3.5 h-3.5" />
                 Role Permissions
               </button>
-              <button className="w-full text-left px-3 py-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-rose-600 dark:text-rose-400 flex items-center gap-2">
+              <button
+                onClick={handleLogout}
+                className="w-full text-left px-3 py-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800 text-rose-600 dark:text-rose-400 flex items-center gap-2 cursor-pointer transition-colors"
+              >
                 <LogOut className="w-3.5 h-3.5" />
-                Sign Out Demo
+                Sign Out
               </button>
             </div>
           )}
