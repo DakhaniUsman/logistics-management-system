@@ -14,8 +14,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const envEmail = (process.env.AUTH_EMAIL || "admin@floq.com").trim().toLowerCase();
-    const envPassword = (process.env.AUTH_PASSWORD || "password123").trim();
+    const envEmail = (process.env.AUTH_EMAIL!).trim().toLowerCase();
+    const envPassword = (process.env.AUTH_PASSWORD!).trim();
 
     const inputEmail = String(email).trim().toLowerCase();
     const inputPassword = String(password).trim();
