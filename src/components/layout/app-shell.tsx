@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { Sidebar } from "./sidebar";
 import { Topbar } from "./topbar";
 import { GlobalSearchDialog } from "@/components/shared/global-search-dialog";
@@ -13,6 +14,7 @@ interface AppShellProps {
 }
 
 export function AppShell({ children }: AppShellProps) {
+  const pathname = usePathname();
   const { isSidebarCollapsed, isDarkMode } = useAppStore();
 
   useEffect(() => {
@@ -22,6 +24,15 @@ export function AppShell({ children }: AppShellProps) {
       document.documentElement.classList.remove("dark");
     }
   }, [isDarkMode]);
+
+  if (pathname === "/login") {
+    return (
+      <div className="min-h-screen bg-slate-50 dark:bg-[#090d16] text-slate-900 dark:text-slate-100 flex flex-col font-sans selection:bg-sky-500 selection:text-white">
+        <Toaster position="top-right" richColors />
+        {children}
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#090d16] text-slate-900 dark:text-slate-100 flex flex-col font-sans selection:bg-sky-500 selection:text-white">
