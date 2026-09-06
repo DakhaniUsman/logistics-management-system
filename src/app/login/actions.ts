@@ -21,8 +21,8 @@ export async function loginAction(
     return { error: "Email and password are required" };
   }
 
-  const envEmail = (process.env.AUTH_EMAIL || "admin@floq.com").trim().toLowerCase();
-  const envPassword = (process.env.AUTH_PASSWORD || "password123").trim();
+  const envEmail = (process.env.AUTH_EMAIL!).trim().toLowerCase();
+  const envPassword = (process.env.AUTH_PASSWORD!).trim();
 
   const inputEmail = email.trim().toLowerCase();
   const inputPassword = password.trim();
