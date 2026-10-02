@@ -326,38 +326,43 @@ export default function GlobalDashboardPage() {
             <span className="font-bold text-sky-600 dark:text-sky-400 text-[11px] block truncate">Ops Job Creation</span>
           </Link>
 
+          <Link href="/operations/shipments" className="p-2.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-sky-500/50 transition-colors text-center">
+            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">4. SHIPMENT</span>
+            <span className="font-bold text-sky-700 dark:text-sky-300 text-[11px] block truncate">Consignments & Tracking</span>
+          </Link>
+
           <Link href="/operations/bookings" className="p-2.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-sky-500/50 transition-colors text-center">
-            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">4. BOOKING</span>
+            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">5. BOOKING</span>
             <span className="font-bold text-sky-600 dark:text-sky-400 text-[11px] block truncate">Vessel Booking</span>
           </Link>
 
           <Link href="/operations/containers" className="p-2.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-sky-500/50 transition-colors text-center">
-            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">5. CONTAINER</span>
+            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">6. CONTAINER</span>
             <span className="font-bold text-sky-600 dark:text-sky-400 text-[11px] block truncate">Equipment Track</span>
           </Link>
 
           <Link href="/documents/center" className="p-2.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-sky-500/50 transition-colors text-center">
-            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">6. DOCUMENTS</span>
+            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">7. DOCUMENTS</span>
             <span className="font-bold text-sky-600 dark:text-sky-400 text-[11px] block truncate">Document Center</span>
           </Link>
 
           <Link href="/operations/customs" className="p-2.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-sky-500/50 transition-colors text-center">
-            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">7. CUSTOMS</span>
+            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">8. CUSTOMS</span>
             <span className="font-bold text-sky-600 dark:text-sky-400 text-[11px] block truncate">Port Clearance</span>
           </Link>
 
           <Link href="/operations/transport" className="p-2.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-sky-500/50 transition-colors text-center">
-            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">8. TRANSPORT</span>
+            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">9. TRANSPORT</span>
             <span className="font-bold text-sky-600 dark:text-sky-400 text-[11px] block truncate">Road Dispatch</span>
           </Link>
 
           <Link href="/warehouse/inventory" className="p-2.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-sky-500/50 transition-colors text-center">
-            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">9. WAREHOUSE</span>
+            <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">10. WAREHOUSE</span>
             <span className="font-bold text-sky-600 dark:text-sky-400 text-[11px] block truncate">GRN & Storage</span>
           </Link>
 
           <Link href="/operations/delivery" className="p-2.5 rounded bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/50 hover:border-emerald-400 transition-colors text-center">
-            <span className="text-[9px] text-emerald-700 dark:text-emerald-400 font-bold uppercase block">10. DELIVERY</span>
+            <span className="text-[9px] text-emerald-700 dark:text-emerald-400 font-bold uppercase block">11. DELIVERY</span>
             <span className="font-bold text-emerald-800 dark:text-emerald-300 text-[11px] block truncate">Customer POD</span>
           </Link>
         </div>

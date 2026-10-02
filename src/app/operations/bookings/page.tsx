@@ -74,7 +74,7 @@ export default function BookingsDashboardAndListPage() {
   const upcomingDepartures = bookings.filter(
     (b) => (b.status === "Confirmed" || b.status === "Pending Confirmation") && b.etd >= todayStr
   );
-  
+
   // Sort upcoming departures by ETD ascending, pick top 6
   const upcomingSorted = [...upcomingDepartures]
     .sort((a, b) => a.etd.localeCompare(b.etd))
@@ -123,7 +123,7 @@ export default function BookingsDashboardAndListPage() {
     if (statusFilter !== "ALL" && b.status !== statusFilter) return false;
     if (modeFilter !== "ALL" && b.transportMode !== modeFilter) return false;
     if (carrierFilter !== "ALL" && b.carrierName !== carrierFilter) return false;
-    
+
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       const match =
@@ -298,7 +298,7 @@ export default function BookingsDashboardAndListPage() {
       {activeTab === "dashboard" ? (
         <div className="space-y-6">
           {/* Stats Cards Row */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-3">
             <StatsCard
               title="Total Bookings"
               value={totalBookings}

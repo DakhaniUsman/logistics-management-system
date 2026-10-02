@@ -456,14 +456,49 @@ export default function JobDetailPage() {
                 )}
               </div>
 
-              {/* Other Future Phase Placeholders */}
+              {/* Operational Subsystems: Shipment, Customs, Transport */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-slate-800/60">
-                <Card className="p-4 border border-slate-800 bg-slate-950/20 space-y-2 opacity-60">
-                  <div className="flex items-center gap-2 text-sky-400 font-bold">
-                    <Ship className="w-4 h-4" />
-                    <span>Shipment Management (Phase 7 - Core Linkage)</span>
+                <Card className="p-4 border border-slate-800 bg-slate-900/40 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-sky-400 font-bold">
+                      <Ship className="w-4 h-4" />
+                      <span>Operational Shipment</span>
+                    </div>
+                    {matchingShipment && (
+                      <StatusBadge status={matchingShipment.status} />
+                    )}
                   </div>
-                  <p className="text-slate-400 text-[11px]">Primary shipment records linked: <code>{matchingShipment?.id || "None found"}</code>.</p>
+                  {matchingShipment ? (
+                    <div className="space-y-1 text-xs">
+                      <div className="flex items-center justify-between">
+                        <Link
+                          href={`/operations/shipments/${matchingShipment.id}`}
+                          className="text-sky-400 hover:underline font-mono font-bold"
+                        >
+                          {matchingShipment.shipmentNumber}
+                        </Link>
+                        <Link
+                          href={`/operations/shipments/${matchingShipment.id}`}
+                          className="text-sky-400 hover:underline font-bold text-[11px] flex items-center gap-1"
+                        >
+                          <span>Track Consignment</span>
+                          <ArrowRight className="w-3 h-3" />
+                        </Link>
+                      </div>
+                      <p className="text-[11px] text-slate-400">
+                        {matchingShipment.transportMode} • {matchingShipment.carrierName || "Carrier TBD"} • ETA: {matchingShipment.eta}
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between pt-1">
+                      <p className="text-slate-400 text-[11px]">No shipment file registered under this job.</p>
+                      <Link href={`/operations/shipments/create?jobId=${job.id}`}>
+                        <Button variant="outline" size="xs" icon={Plus}>
+                          Create Shipment
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
                 </Card>
 
                 <Card className="p-4 border border-slate-800 bg-slate-900/40 space-y-2">

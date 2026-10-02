@@ -74,7 +74,7 @@ const NAVIGATION_SECTIONS: { section: string; items: NavItem[] }[] = [
         children: [
           { title: "Jobs Command Center", href: "/operations/jobs" },
           { title: "Create Operational Job", href: "/operations/jobs/create" },
-          { title: "Shipments", href: "/operations/jobs" },
+          { title: "Shipments", href: "/operations/shipments" },
           { title: "Bookings", href: "/operations/bookings" },
           { title: "Containers", href: "/operations/containers" },
           { title: "Transport Execution", href: "/operations/transport" },
@@ -197,9 +197,9 @@ export function Sidebar() {
   } = useAppStore();
 
   const [openSubmenus, setOpenSubmenus] = useState<Record<string, boolean>>({
-    "CRM & Sales": true,
-    "Logistics Operations": true,
-    "Finance & Accounting": true,
+    "CRM & Sales": false,
+    "Logistics Operations": false,
+    "Finance & Accounting": false,
   });
 
   const toggleSubmenu = (title: string) => {

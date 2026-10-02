@@ -162,11 +162,10 @@ export default function TransportDashboardPage() {
         <div className="text-[11px]">
           <span className="font-mono font-bold text-slate-200 block">{req.pickupDate} ({req.pickupTime})</span>
           <span
-            className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
-              req.priority === "Critical" || req.priority === "Urgent"
-                ? "bg-rose-500/20 text-rose-300 border border-rose-500/30"
-                : "bg-slate-800 text-slate-400"
-            }`}
+            className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${req.priority === "Critical" || req.priority === "Urgent"
+              ? "bg-rose-500/20 text-rose-300 border border-rose-500/30"
+              : "bg-slate-800 text-slate-400"
+              }`}
           >
             {req.priority} Priority
           </span>
@@ -263,7 +262,7 @@ export default function TransportDashboardPage() {
       />
 
       {/* Top Operational KPI Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-3">
         <div onClick={() => setFilters({ status: "ALL" })} className="cursor-pointer transition-transform hover:scale-105">
           <StatsCard title="TOTAL REQUESTS" value={kpis.total.toString()} icon={Truck} />
         </div>

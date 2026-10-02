@@ -196,8 +196,8 @@ export default function DocumentCenterPage() {
             doc.verificationStatus === "Verified"
               ? "Verified"
               : doc.verificationStatus === "Rejected"
-              ? "Rejected"
-              : "Pending"
+                ? "Rejected"
+                : "Pending"
           }
         />
       ),
@@ -213,13 +213,12 @@ export default function DocumentCenterPage() {
 
         return (
           <span
-            className={`text-[10px] font-bold px-2 py-0.5 rounded ${
-              isExp
-                ? "bg-rose-500/20 text-rose-300"
-                : isSoon
+            className={`text-[10px] font-bold px-2 py-0.5 rounded ${isExp
+              ? "bg-rose-500/20 text-rose-300"
+              : isSoon
                 ? "bg-amber-500/20 text-amber-300"
                 : "bg-slate-800 text-slate-300"
-            }`}
+              }`}
           >
             {doc.expiryDate} {isSoon ? `(${days}d left)` : isExp ? "(Expired)" : ""}
           </span>
@@ -276,7 +275,7 @@ export default function DocumentCenterPage() {
         subtitle="Centralized document repository, operational compliance checklist, and multi-tier verification engine."
         breadcrumbs={[{ label: "Documents", href: "/documents/center" }, { label: "Document Center" }]}
         actions={
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 md:">
             <Button
               variant="outline"
               size="sm"
@@ -311,7 +310,7 @@ export default function DocumentCenterPage() {
       />
 
       {/* Top operational KPI Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-3">
         <div
           onClick={() => setFilters({ status: "ALL", verificationStatus: "ALL", expiryStatus: "ALL" })}
           className="cursor-pointer transition-transform hover:scale-105"

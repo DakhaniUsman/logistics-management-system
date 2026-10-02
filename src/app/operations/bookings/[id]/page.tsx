@@ -210,7 +210,7 @@ export default function BookingDetailPage() {
             Booking {booking.bookingNumber}
           </h1>
           <p className="text-xs text-slate-400">
-            Linked Shipment: <Link href={`/operations/jobs`} className="text-sky-500 hover:underline font-mono font-semibold">{booking.shipmentId}</Link> • Parent Job: <span className="font-mono">{booking.jobId}</span>
+            Linked Shipment: <Link href={`/operations/shipments/${booking.shipmentId}`} className="text-sky-500 hover:underline font-mono font-semibold">{booking.shipmentId}</Link> • Parent Job: <Link href={`/operations/jobs/${booking.jobId}`} className="font-mono text-slate-400 hover:text-sky-400 hover:underline">{booking.jobId}</Link>
           </p>
         </div>
 

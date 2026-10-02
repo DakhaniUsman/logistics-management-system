@@ -64,7 +64,7 @@ export default function ContainersDashboardAndListPage() {
     condition: conditionFilter === "ALL" ? undefined : (conditionFilter as ContainerCondition),
     search: searchQuery || undefined
   };
-  
+
   const { data: filteredContainers = [], isLoading: isTableLoading } = useContainers(activeFilters);
 
   // Calculate Metrics from all containers
@@ -305,7 +305,7 @@ export default function ContainersDashboardAndListPage() {
       {activeTab === "dashboard" ? (
         <div className="space-y-6">
           {/* Stats Bar */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-3">
             <StatsCard
               title="Total Containers"
               value={totalCount}
@@ -491,9 +491,9 @@ export default function ContainersDashboardAndListPage() {
                           {c.currentLocation} ({c.currentCountry})
                         </p>
                         <p className="text-[10px] text-rose-400 font-bold uppercase tracking-wide">
-                          {c.status === "Customs Hold" ? "CUSTOMS HOLD" 
+                          {c.status === "Customs Hold" ? "CUSTOMS HOLD"
                             : c.sealStatus === "Broken" ? "BROKEN SEAL WARNING"
-                            : `${c.condition} Equipment`}
+                              : `${c.condition} Equipment`}
                         </p>
                       </div>
                       <Link href={`/operations/containers/${c.id}`}>

@@ -181,9 +181,8 @@ export default function DeliveryDashboardPage() {
       header: "Attempt #",
       accessor: (del: Delivery) => (
         <span
-          className={`font-mono text-xs font-bold px-2 py-0.5 rounded ${
-            del.attemptNumber > 1 ? "bg-rose-500/20 text-rose-300 border border-rose-500/30" : "bg-slate-800 text-slate-300"
-          }`}
+          className={`font-mono text-xs font-bold px-2 py-0.5 rounded ${del.attemptNumber > 1 ? "bg-rose-500/20 text-rose-300 border border-rose-500/30" : "bg-slate-800 text-slate-300"
+            }`}
         >
           Attempt {del.attemptNumber}
         </span>
@@ -199,13 +198,12 @@ export default function DeliveryDashboardPage() {
       header: "POD Status",
       accessor: (del: Delivery) => (
         <span
-          className={`text-[10px] font-bold px-2 py-0.5 rounded ${
-            del.podStatus === "Verified"
+          className={`text-[10px] font-bold px-2 py-0.5 rounded ${del.podStatus === "Verified"
               ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
               : del.podStatus === "Under Verification"
-              ? "bg-sky-500/20 text-sky-300 border border-sky-500/30"
-              : "bg-amber-500/20 text-amber-300 border border-amber-500/30"
-          }`}
+                ? "bg-sky-500/20 text-sky-300 border border-sky-500/30"
+                : "bg-amber-500/20 text-amber-300 border border-amber-500/30"
+            }`}
         >
           {del.podStatus || "Pending"}
         </span>
@@ -275,7 +273,7 @@ export default function DeliveryDashboardPage() {
       />
 
       {/* Top Operational KPI Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-3">
         <div onClick={() => setFilters({ status: "ALL" })} className="cursor-pointer transition-transform hover:scale-105">
           <StatsCard title="TOTAL DELIVERIES" value={kpis.total.toString()} icon={Truck} />
         </div>
