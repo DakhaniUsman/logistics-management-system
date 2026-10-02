@@ -195,13 +195,12 @@ export default function CustomsDashboardPage() {
             {dec.currency} {dec.totalPayable.toLocaleString()}
           </span>
           <span
-            className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
-              dec.dutyPaymentStatus === "Paid"
+            className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${dec.dutyPaymentStatus === "Paid"
                 ? "bg-emerald-500/20 text-emerald-300"
                 : dec.dutyPaymentStatus === "Pending"
-                ? "bg-amber-500/20 text-amber-300"
-                : "bg-slate-800 text-slate-400"
-            }`}
+                  ? "bg-amber-500/20 text-amber-300"
+                  : "bg-slate-800 text-slate-400"
+              }`}
           >
             {dec.dutyPaymentStatus}
           </span>
@@ -289,7 +288,7 @@ export default function CustomsDashboardPage() {
       />
 
       {/* Top operational KPI Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-3">
         <div
           onClick={() => setFilters({ status: "ALL", dutyStatus: "ALL" })}
           className="cursor-pointer transition-transform hover:scale-105"

@@ -187,7 +187,7 @@ export default function JobsDashboardAndListPage() {
       />
 
       {/* KPI Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-3">
         <StatsCard
           title="Total Jobs"
           value={totalJobs}
@@ -326,7 +326,7 @@ export default function JobsDashboardAndListPage() {
           searchPlaceholder="Search jobs by ID, customer, quotation, route, or cargo..."
           searchKey={(j) => `${j.jobNumber} ${j.customerName} ${j.quotationNumber || ""} ${j.origin} ${j.destination} ${j.cargoDescription}`}
           actions={
-            <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex items-center gap-2 flex-row">
               <Select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}

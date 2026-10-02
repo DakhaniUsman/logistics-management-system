@@ -38,17 +38,24 @@ export function StatusBadge({ status, className, showIcon = true }: StatusBadgeP
     case "Verified":
     case "Loaded":
     case "Released":
+    case "Arrived":
       badgeStyle = "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800";
       IconComponent = CheckCircle2;
       break;
     case "Customs Cleared":
     case "Approved":
     case "Confirmed":
+    case "Booked":
     case "At Origin":
     case "Gate In":
     case "At Destination":
       badgeStyle = "bg-teal-50 text-teal-700 dark:bg-teal-950/60 dark:text-teal-400 border-teal-200 dark:border-teal-800";
       IconComponent = FileCheck;
+      break;
+    case "Scheduled":
+    case "Cargo Ready":
+      badgeStyle = "bg-cyan-50 text-cyan-700 dark:bg-cyan-950/60 dark:text-cyan-400 border-cyan-200 dark:border-cyan-800";
+      IconComponent = Clock;
       break;
     case "Delayed":
     case "Overdue":
@@ -60,6 +67,7 @@ export function StatusBadge({ status, className, showIcon = true }: StatusBadgeP
       IconComponent = AlertTriangle;
       break;
     case "Pending":
+    case "Booking Pending":
     case "Under Review":
     case "Needs Review":
     case "Partially Paid":

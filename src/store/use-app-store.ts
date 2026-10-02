@@ -105,7 +105,7 @@ export const useAppStore = create<AppStoreState>((set) => ({
     id: "org-1",
     name: "Eclipse Logistics Ltd",
     code: "ECLIPSE-HQ",
-    branch: "Mumbai (HQ)",
+    branch: "Chennai (HQ)",
   },
   setCurrentOrg: (org) => set({ currentOrg: org }),
 
