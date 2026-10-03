@@ -50,10 +50,10 @@ function LoginForm() {
             </div>
 
             <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-              FLOQ Logistics OS
+              FLOQ
             </h1>
             <p className="mt-1.5 text-sm text-slate-500 dark:text-slate-400">
-              Sign in to access your supply chain operations
+              Sign in to manage your logistics and supply chain operations
             </p>
 
             <div className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-medium text-sky-600 dark:border-sky-800/80 dark:bg-sky-950/60 dark:text-sky-400">

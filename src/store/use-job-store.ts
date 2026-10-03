@@ -1,11 +1,15 @@
 import { create } from "zustand";
 import { Job, JobStatus, JobTask, JobActivity } from "@/types/job";
 import { MOCK_JOBS } from "@/data/mock/job-data";
+import { CHENNAI_JOBS } from "@/data/mock/chennai-data";
 import { useCrmStore } from "./use-crm-store";
 import { useEnquiryStore } from "./use-enquiry-store";
 
 interface JobStoreState {
   jobs: Job[];
+
+  // Regional Dataset Action
+  setRegion: (region: "chennai" | "mumbai" | "all") => void;
 
   addJob: (data: Omit<Job, "id" | "jobNumber" | "createdAt" | "updatedAt">) => Job;
   createJobFromQuotation: (quotation: any) => Job;
@@ -20,7 +24,18 @@ interface JobStoreState {
 }
 
 export const useJobStore = create<JobStoreState>((set, get) => ({
-  jobs: MOCK_JOBS,
+  // Default to Chennai Jobs
+  jobs: CHENNAI_JOBS,
+
+  setRegion: (region) => {
+    if (region === "chennai") {
+      set({ jobs: CHENNAI_JOBS });
+    } else if (region === "mumbai") {
+      set({ jobs: MOCK_JOBS });
+    } else {
+      set({ jobs: [...CHENNAI_JOBS, ...MOCK_JOBS] });
+    }
+  },
 
   addJob: (data) => {
     const nextNum = get().jobs.length + 1;

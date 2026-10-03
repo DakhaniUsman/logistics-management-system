@@ -10,6 +10,19 @@ import {
   TransportExpense,
 } from "@/types/transport";
 import { transportRepository } from "@/services/transport.repository";
+import {
+  MOCK_TRANSPORT_REQUESTS,
+  MOCK_TRIPS,
+  MOCK_VEHICLES,
+  MOCK_DRIVERS,
+  MOCK_TRANSPORT_VENDORS,
+} from "@/data/mock/transport-data";
+import {
+  CHENNAI_TRANSPORT_REQUESTS,
+  CHENNAI_TRANSPORT_TRIPS,
+  CHENNAI_VEHICLES,
+  CHENNAI_DRIVERS,
+} from "@/data/mock/chennai-data";
 import { toast } from "sonner";
 import { useCrmStore } from "./use-crm-store";
 
@@ -23,6 +36,9 @@ interface TransportStoreState {
   selectedRequest: TransportRequest | null;
   selectedTrip: Trip | null;
   isLoading: boolean;
+
+  // Regional Dataset Action
+  setRegion: (region: "chennai" | "mumbai" | "all") => void;
 
   // Dialog Controls
   isRequestModalOpen: boolean;
@@ -92,17 +108,44 @@ interface TransportStoreState {
 }
 
 export const useTransportStore = create<TransportStoreState>((set, get) => ({
-  requests: [],
-  trips: [],
-  vehicles: [],
-  drivers: [],
-  vendors: [],
+  // Default to Chennai Transport Data
+  requests: CHENNAI_TRANSPORT_REQUESTS,
+  trips: CHENNAI_TRANSPORT_TRIPS,
+  vehicles: CHENNAI_VEHICLES,
+  drivers: CHENNAI_DRIVERS,
+  vendors: MOCK_TRANSPORT_VENDORS,
   filters: {
     search: "",
     status: "ALL",
     priority: "ALL",
     vehicleType: "ALL",
   },
+
+  setRegion: (region) => {
+    if (region === "chennai") {
+      set({
+        requests: CHENNAI_TRANSPORT_REQUESTS,
+        trips: CHENNAI_TRANSPORT_TRIPS,
+        vehicles: CHENNAI_VEHICLES,
+        drivers: CHENNAI_DRIVERS,
+      });
+    } else if (region === "mumbai") {
+      set({
+        requests: MOCK_TRANSPORT_REQUESTS,
+        trips: MOCK_TRIPS,
+        vehicles: MOCK_VEHICLES,
+        drivers: MOCK_DRIVERS,
+      });
+    } else {
+      set({
+        requests: [...CHENNAI_TRANSPORT_REQUESTS, ...MOCK_TRANSPORT_REQUESTS],
+        trips: [...CHENNAI_TRANSPORT_TRIPS, ...MOCK_TRIPS],
+        vehicles: [...CHENNAI_VEHICLES, ...MOCK_VEHICLES],
+        drivers: [...CHENNAI_DRIVERS, ...MOCK_DRIVERS],
+      });
+    }
+  },
+
   selectedRequest: null,
   selectedTrip: null,
   isLoading: false,

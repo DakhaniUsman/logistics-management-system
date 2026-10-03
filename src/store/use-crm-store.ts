@@ -8,6 +8,12 @@ import {
   MOCK_ACTIVITIES,
   MOCK_TASKS,
 } from "@/data/mock/crm-data";
+import {
+  CHENNAI_LEADS,
+  CHENNAI_COMPANIES,
+  CHENNAI_CONTACTS,
+  CHENNAI_CUSTOMERS,
+} from "@/data/mock/chennai-data";
 
 interface CrmStoreState {
   leads: Lead[];
@@ -16,6 +22,9 @@ interface CrmStoreState {
   customers: Customer[];
   activities: Activity[];
   tasks: Task[];
+
+  // Regional Dataset Action
+  setRegion: (region: "chennai" | "mumbai" | "all") => void;
 
   // Lead actions
   addLead: (lead: Omit<Lead, "id" | "leadNumber" | "createdAt" | "updatedAt">) => Lead;
@@ -45,12 +54,38 @@ interface CrmStoreState {
 }
 
 export const useCrmStore = create<CrmStoreState>((set, get) => ({
-  leads: MOCK_LEADS,
-  companies: MOCK_COMPANIES,
-  contacts: MOCK_CONTACTS,
-  customers: MOCK_CUSTOMERS,
+  // Default to Chennai Dataset
+  leads: CHENNAI_LEADS,
+  companies: CHENNAI_COMPANIES,
+  contacts: CHENNAI_CONTACTS,
+  customers: CHENNAI_CUSTOMERS,
   activities: MOCK_ACTIVITIES,
   tasks: MOCK_TASKS,
+
+  setRegion: (region) => {
+    if (region === "chennai") {
+      set({
+        leads: CHENNAI_LEADS,
+        companies: CHENNAI_COMPANIES,
+        contacts: CHENNAI_CONTACTS,
+        customers: CHENNAI_CUSTOMERS,
+      });
+    } else if (region === "mumbai") {
+      set({
+        leads: MOCK_LEADS,
+        companies: MOCK_COMPANIES,
+        contacts: MOCK_CONTACTS,
+        customers: MOCK_CUSTOMERS,
+      });
+    } else {
+      set({
+        leads: [...CHENNAI_LEADS, ...MOCK_LEADS],
+        companies: [...CHENNAI_COMPANIES, ...MOCK_COMPANIES],
+        contacts: [...CHENNAI_CONTACTS, ...MOCK_CONTACTS],
+        customers: [...CHENNAI_CUSTOMERS, ...MOCK_CUSTOMERS],
+      });
+    }
+  },
 
   addLead: (data) => {
     const nextNum = get().leads.length + 1;
