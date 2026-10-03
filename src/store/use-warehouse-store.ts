@@ -13,6 +13,8 @@ import {
   WarehouseFilterOptions,
 } from "@/types/warehouse";
 import { warehouseRepository } from "@/services/warehouse.repository";
+import { MOCK_WAREHOUSES } from "@/data/mock/warehouse-data";
+import { CHENNAI_WAREHOUSES } from "@/data/mock/chennai-data";
 import { toast } from "sonner";
 import { useCrmStore } from "./use-crm-store";
 
@@ -28,6 +30,9 @@ interface WarehouseStoreState {
   dispatches: Dispatch[];
   tasks: WarehouseTask[];
   filters: WarehouseFilterOptions;
+
+  // Regional Dataset Action
+  setRegion: (region: "chennai" | "mumbai" | "all") => void;
 
   selectedWarehouse: Warehouse | null;
   selectedGRN: GoodsReceipt | null;
@@ -102,7 +107,8 @@ interface WarehouseStoreState {
 }
 
 export const useWarehouseStore = create<WarehouseStoreState>((set, get) => ({
-  warehouses: [],
+  // Default to Chennai Warehouses
+  warehouses: CHENNAI_WAREHOUSES,
   zones: [],
   locations: [],
   operators: [],
@@ -113,6 +119,16 @@ export const useWarehouseStore = create<WarehouseStoreState>((set, get) => ({
   dispatches: [],
   tasks: [],
   filters: { search: "", status: "ALL" },
+
+  setRegion: (region) => {
+    if (region === "chennai") {
+      set({ warehouses: CHENNAI_WAREHOUSES });
+    } else if (region === "mumbai") {
+      set({ warehouses: MOCK_WAREHOUSES });
+    } else {
+      set({ warehouses: [...CHENNAI_WAREHOUSES, ...MOCK_WAREHOUSES] });
+    }
+  },
 
   selectedWarehouse: null,
   selectedGRN: null,

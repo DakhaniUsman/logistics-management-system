@@ -176,7 +176,7 @@ export default function GlobalDashboardPage() {
     <div className="space-y-6 animate-in fade-in duration-300 pb-12">
       {/* Page Header */}
       <PageHeader
-        title="FLOQ — EXECUTIVE OPERATIONAL COMMAND CENTER"
+        title="FLOQ — Connect. Centralize. Flow."
         subtitle="End-to-end multi-modal logistics operating system: CRM, Quotations, Jobs, Shipments, Bookings, Containers, Customs, Transport, Warehouse & POD."
         actions={
           <div className="flex items-center gap-2 flex-wrap">
@@ -186,7 +186,7 @@ export default function GlobalDashboardPage() {
               icon={RefreshCw}
               onClick={() => window.location.reload()}
             >
-              Refresh OS
+              Refresh
             </Button>
 
             <Link href="/operations/jobs/create">
@@ -304,13 +304,10 @@ export default function GlobalDashboardPage() {
               FLOQ End-to-End Operational Execution Lifecycle
             </h4>
           </div>
-          <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-500/30">
-            Phases 1 — 14 Live & Connected
-          </span>
         </div>
 
         {/* 10-Step Interactive Pipeline Strip */}
-        <div className="grid grid-cols-2 sm:grid-cols-5 lg:grid-cols-10 gap-2 text-xs pt-1">
+        <div className="grid grid-cols-2 sm:grid-cols-5 lg:grid-cols-5 gap-2 text-xs pt-1">
           <Link href="/sales/crm" className="p-2.5 rounded bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-sky-500/50 transition-colors text-center">
             <span className="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase block">1. CRM</span>
             <span className="font-bold text-sky-600 dark:text-sky-400 text-[11px] block truncate">Leads & RFQs</span>
@@ -504,9 +501,9 @@ export default function GlobalDashboardPage() {
             </div>
           </div>
 
-          <span className="text-[10px] text-slate-500 dark:text-slate-400 italic block pt-2 border-t border-slate-200 dark:border-slate-800">
+          {/* <span className="text-[10px] text-slate-500 dark:text-slate-400 italic block pt-2 border-t border-slate-200 dark:border-slate-800">
             * All 14 operational modules interconnected with real mock datasets.
-          </span>
+          </span> */}
         </Card>
       </div>
 

@@ -7,6 +7,8 @@ import {
   CustomsStatus,
 } from "@/types/customs";
 import { customsRepository } from "@/services/customs.repository";
+import { MOCK_CUSTOMS_DECLARATIONS } from "@/data/mock/customs-data";
+import { CHENNAI_CUSTOMS_DECLARATIONS } from "@/data/mock/chennai-data";
 import { toast } from "sonner";
 import { useCrmStore } from "./use-crm-store";
 
@@ -15,6 +17,9 @@ interface CustomsStoreState {
   filters: CustomsFilterOptions;
   selectedDeclaration: CustomsDeclaration | null;
   isLoading: boolean;
+
+  // Regional Dataset Action
+  setRegion: (region: "chennai" | "mumbai" | "all") => void;
 
   // Dialog Controls
   isFormModalOpen: boolean;
@@ -89,7 +94,8 @@ interface CustomsStoreState {
 }
 
 export const useCustomsStore = create<CustomsStoreState>((set, get) => ({
-  declarations: [],
+  // Default to Chennai Customs Declarations
+  declarations: CHENNAI_CUSTOMS_DECLARATIONS,
   filters: {
     search: "",
     customsType: "ALL",
@@ -98,6 +104,16 @@ export const useCustomsStore = create<CustomsStoreState>((set, get) => ({
   },
   selectedDeclaration: null,
   isLoading: false,
+
+  setRegion: (region) => {
+    if (region === "chennai") {
+      set({ declarations: CHENNAI_CUSTOMS_DECLARATIONS });
+    } else if (region === "mumbai") {
+      set({ declarations: MOCK_CUSTOMS_DECLARATIONS });
+    } else {
+      set({ declarations: [...CHENNAI_CUSTOMS_DECLARATIONS, ...MOCK_CUSTOMS_DECLARATIONS] });
+    }
+  },
 
   isFormModalOpen: false,
   isFilingModalOpen: false,

@@ -9,11 +9,15 @@ import {
   TransportMode,
 } from "@/types/shipment";
 import { MOCK_SHIPMENTS } from "@/data/mock/shipment-data";
+import { CHENNAI_SHIPMENTS } from "@/data/mock/chennai-data";
 import { useCrmStore } from "./use-crm-store";
 import { toast } from "sonner";
 
 interface ShipmentStoreState {
   shipments: Shipment[];
+
+  // Regional Dataset Action
+  setRegion: (region: "chennai" | "mumbai" | "all") => void;
 
   // Actions
   addShipment: (
@@ -59,7 +63,18 @@ interface ShipmentStoreState {
 }
 
 export const useShipmentStore = create<ShipmentStoreState>((set, get) => ({
-  shipments: MOCK_SHIPMENTS,
+  // Default to Chennai Shipments
+  shipments: CHENNAI_SHIPMENTS,
+
+  setRegion: (region) => {
+    if (region === "chennai") {
+      set({ shipments: CHENNAI_SHIPMENTS });
+    } else if (region === "mumbai") {
+      set({ shipments: MOCK_SHIPMENTS });
+    } else {
+      set({ shipments: [...CHENNAI_SHIPMENTS, ...MOCK_SHIPMENTS] });
+    }
+  },
 
   addShipment: (data) => {
     const nextNum = get().shipments.length + 1;
